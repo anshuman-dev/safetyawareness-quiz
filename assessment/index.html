@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Risk Understanding Assessment</title>
+  <title>AI Risk: What Do You Actually Know?</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -39,7 +39,6 @@
       font-size: 15px;
     }
 
-    /* ── Screens ── */
     .screen { display: none; min-height: 100vh; }
     .screen.active {
       display: flex;
@@ -53,7 +52,6 @@
       padding: 0;
     }
 
-    /* ── Card ── */
     .card {
       background: var(--white);
       border: 1px solid var(--border);
@@ -64,7 +62,7 @@
       max-width: 640px;
     }
 
-    /* ── Welcome ── */
+    /* Welcome */
     .eyebrow {
       font-size: 11px;
       font-weight: 700;
@@ -86,38 +84,51 @@
       margin-bottom: 28px;
       line-height: 1.75;
     }
-    .features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    .warning-box {
+      background: var(--amber-bg);
+      border: 1px solid var(--amber-border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 13.5px;
+      color: var(--amber-text);
+      line-height: 1.65;
       margin-bottom: 28px;
     }
-    .feature {
-      background: var(--bg);
-      border-radius: 8px;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
+    .mode-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    .feature-label { font-weight: 700; font-size: 13px; margin-bottom: 3px; }
-    .feature-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
-
-    .domains-preview { margin-top: 24px; }
-    .domains-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 8px; }
-    .domain-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .dtag {
-      display: inline-block;
-      padding: 3px 10px;
+    .mode-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      background: var(--white);
+      transition: border-color 0.12s, background 0.12s;
+      text-align: left;
+      width: 100%;
+      gap: 16px;
+    }
+    .mode-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+    .mode-btn-left { display: flex; flex-direction: column; gap: 2px; }
+    .mode-btn-title { font-weight: 700; font-size: 15px; color: var(--text); }
+    .mode-btn-desc { font-size: 12px; color: var(--muted); }
+    .mode-btn-badge {
+      padding: 4px 12px;
       border-radius: 999px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
-    .dtag-0 { background: #dbeafe; color: #1e40af; }
-    .dtag-1 { background: #ede9fe; color: #5b21b6; }
-    .dtag-2 { background: #d1fae5; color: #065f46; }
-    .dtag-3 { background: #fef3c7; color: #92400e; }
-    .dtag-4 { background: #ffedd5; color: #9a3412; }
+    .badge-brief { background: #d1fae5; color: #065f46; }
+    .badge-full  { background: #dbeafe; color: #1e40af; }
 
-    /* ── Buttons ── */
+    /* Buttons */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -131,11 +142,7 @@
       border: none;
       transition: all 0.15s ease;
     }
-    .btn-primary {
-      background: var(--primary);
-      color: white;
-      width: 100%;
-    }
+    .btn-primary { background: var(--primary); color: white; width: 100%; }
     .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: var(--shadow-lg); }
     .btn-ghost {
       background: transparent;
@@ -152,12 +159,8 @@
     }
     .btn-outline:hover { background: var(--primary-light); }
 
-    /* ── Progress bar ── */
-    .progress-bar-wrap {
-      width: 100%;
-      max-width: 640px;
-      margin-bottom: 14px;
-    }
+    /* Progress */
+    .progress-bar-wrap { width: 100%; max-width: 640px; margin-bottom: 14px; }
     .progress-meta {
       display: flex;
       justify-content: space-between;
@@ -165,70 +168,10 @@
       color: var(--muted);
       margin-bottom: 6px;
     }
-    .progress-track {
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      background: var(--primary);
-      border-radius: 2px;
-      transition: width 0.35s ease;
-    }
+    .progress-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--primary); border-radius: 2px; transition: width 0.35s ease; }
 
-    /* ── Onboarding ── */
-    .onboard-step { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
-    .onboard-question { font-size: 20px; font-weight: 700; margin-bottom: 24px; line-height: 1.35; }
-    .onboard-options { display: flex; flex-direction: column; gap: 10px; }
-    .onboard-option {
-      display: flex;
-      flex-direction: column;
-      padding: 15px 18px;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: border-color 0.12s, background 0.12s;
-      background: var(--white);
-      text-align: left;
-    }
-    .onboard-option:hover { border-color: var(--primary); background: var(--primary-light); }
-    .onboard-option.selected { border-color: var(--primary); background: var(--primary-light); }
-    .onboard-option-label { font-weight: 600; font-size: 14px; }
-    .onboard-option-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
-    .onboard-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 24px;
-      gap: 12px;
-    }
-
-    /* ── Quiz ── */
-    .quiz-domain-badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
-      margin-bottom: 16px;
-    }
-    .diff-tag {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    .diff-easy { background: var(--green-bg); color: var(--green); }
-    .diff-medium { background: #fef3c7; color: #92400e; }
-    .diff-hard { background: #ede9fe; color: #5b21b6; }
-
+    /* Quiz */
     .question-text {
       font-size: 17px;
       font-weight: 600;
@@ -254,27 +197,21 @@
     }
     .quiz-option:hover:not([disabled]) { border-color: var(--primary); background: var(--primary-light); }
     .quiz-option[disabled] { cursor: default; }
-    .quiz-option.correct { border-color: var(--green); background: var(--green-bg); }
-    .quiz-option.wrong { border-color: var(--red); background: var(--red-bg); }
+    .quiz-option.correct  { border-color: var(--green); background: var(--green-bg); }
+    .quiz-option.wrong    { border-color: var(--red);   background: var(--red-bg);   }
     .quiz-option.revealed { border-color: var(--green); background: var(--green-bg); opacity: 0.75; }
 
     .opt-letter {
-      width: 26px;
-      height: 26px;
+      width: 26px; height: 26px;
       border-radius: 6px;
       background: var(--bg);
       border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
-      flex-shrink: 0;
-      color: var(--muted);
-      margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      flex-shrink: 0; color: var(--muted); margin-top: 1px;
     }
-    .quiz-option.correct .opt-letter { background: var(--green); border-color: var(--green); color: white; }
-    .quiz-option.wrong .opt-letter { background: var(--red); border-color: var(--red); color: white; }
+    .quiz-option.correct  .opt-letter { background: var(--green); border-color: var(--green); color: white; }
+    .quiz-option.wrong    .opt-letter { background: var(--red);   border-color: var(--red);   color: white; }
     .quiz-option.revealed .opt-letter { background: var(--green); border-color: var(--green); color: white; }
 
     .explanation {
@@ -291,767 +228,533 @@
     .explanation.visible { display: block; }
     .explanation-label { font-weight: 700; margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .quiz-footer {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 20px;
-    }
+    .quiz-footer { display: flex; justify-content: flex-end; margin-top: 20px; }
     .quiz-footer.hidden { display: none; }
 
-    /* ── Results ── */
+    /* Results */
     .results-hero {
-      background: linear-gradient(135deg, #1a56db 0%, #3b82f6 100%);
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
       padding: 52px 24px 44px;
       text-align: center;
       color: white;
     }
     .results-eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      opacity: 0.75;
-      margin-bottom: 12px;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.2px;
+      opacity: 0.6; margin-bottom: 12px;
     }
+    .results-score-big {
+      font-size: 64px; font-weight: 900;
+      letter-spacing: -2px; line-height: 1;
+      margin-bottom: 8px;
+    }
+    .results-score-label { font-size: 16px; opacity: 0.75; margin-bottom: 20px; }
     .results-profile-name {
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 16px;
-    }
-    .results-score-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.3);
-      padding: 10px 26px;
-      border-radius: 999px;
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 20px;
+      font-size: 22px; font-weight: 700;
+      margin-bottom: 14px; letter-spacing: -0.3px;
     }
     .results-narrative {
-      font-size: 15px;
-      opacity: 0.88;
-      max-width: 540px;
-      margin: 0 auto;
-      line-height: 1.75;
+      font-size: 14px; opacity: 0.82;
+      max-width: 500px; margin: 0 auto; line-height: 1.75;
     }
 
     .results-body {
-      max-width: 720px;
+      max-width: 680px;
       margin: 0 auto;
       padding: 44px 28px 60px;
       width: 100%;
     }
 
     .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--muted);
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--muted); margin-bottom: 16px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
     }
-
     .results-section { margin-bottom: 40px; }
 
-    /* Domain bars */
-    .domain-bars { display: flex; flex-direction: column; gap: 16px; }
-    .dbar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .dbar-name { font-size: 13px; font-weight: 600; }
-    .dbar-score { font-size: 13px; font-weight: 700; color: var(--muted); }
-    .dbar-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-    .dbar-fill {
-      height: 100%;
-      border-radius: 4px;
-      width: 0;
-      transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .bar-c0 { background: #3b82f6; }
-    .bar-c1 { background: #7c3aed; }
-    .bar-c2 { background: #059669; }
-    .bar-c3 { background: #d97706; }
-    .bar-c4 { background: #ea580c; }
-
-    /* Strength / Gap grid */
-    .sg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .sg-card { border-radius: 10px; padding: 16px 18px; }
-    .sg-card.strength { background: var(--green-bg); border: 1px solid var(--green-border); }
-    .sg-card.gap { background: var(--red-bg); border: 1px solid var(--red-border); }
-    .sg-head {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 10px;
-    }
-    .strength .sg-head { color: var(--green); }
-    .gap .sg-head { color: var(--red); }
-    .sg-item { font-size: 13px; margin-bottom: 5px; display: flex; align-items: center; gap: 7px; }
-    .sg-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-    .strength .sg-dot { background: var(--green); }
-    .gap .sg-dot { background: var(--red); }
-    .sg-empty { font-size: 13px; color: var(--muted); font-style: italic; }
-
-    /* Reading list */
-    .reading-list { display: flex; flex-direction: column; gap: 10px; }
-    .reading-item {
+    /* Missed questions review */
+    .missed-list { display: flex; flex-direction: column; gap: 14px; }
+    .missed-item {
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
+      padding: 16px 18px;
     }
-    .reading-type {
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .rtype-book { background: #dbeafe; color: #1e40af; }
-    .rtype-course { background: #ede9fe; color: #5b21b6; }
-    .rtype-article { background: #d1fae5; color: #065f46; }
-    .rtype-website { background: #ffedd5; color: #9a3412; }
-    .rtype-paper { background: #fef3c7; color: #92400e; }
-    .rtype-guide { background: #fee2e2; color: #991b1b; }
-
-    .reading-title { font-weight: 600; font-size: 14px; }
-    .reading-desc { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
-    .reading-domain {
+    .missed-q { font-size: 13px; font-weight: 600; margin-bottom: 10px; line-height: 1.5; }
+    .missed-row { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; margin-bottom: 4px; }
+    .missed-tag {
       display: inline-block;
-      margin-top: 6px;
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.3px;
+      white-space: nowrap; flex-shrink: 0; margin-top: 1px;
+    }
+    .tag-yours    { background: var(--red-bg);   color: var(--red);   }
+    .tag-correct  { background: var(--green-bg); color: var(--green); }
+    .missed-explanation {
+      margin-top: 10px; padding: 10px 12px;
+      background: var(--amber-bg); border: 1px solid var(--amber-border);
+      border-radius: 6px; font-size: 12.5px; color: var(--amber-text); line-height: 1.6;
+    }
+    .all-correct-box {
+      background: var(--green-bg); border: 1px solid var(--green-border);
+      border-radius: 10px; padding: 20px;
+      text-align: center; color: var(--green); font-weight: 600;
     }
 
-    /* Next steps */
-    .next-steps { display: flex; flex-direction: column; gap: 10px; }
-    .next-step {
+    /* CTA Widget */
+    .cta-widget {
       background: var(--white);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
+      border-radius: var(--radius);
+      overflow: hidden;
     }
-    .step-num {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
+    .cta-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .cta-tab {
+      flex: 1;
+      padding: 12px 6px;
+      font-size: 12px; font-weight: 600;
+      border: none; background: transparent;
+      cursor: pointer; color: var(--muted);
+      border-bottom: 2px solid transparent;
+      transition: color 0.12s, border-color 0.12s;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .cta-tab:hover { color: var(--text); }
+    .cta-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--white); }
+
+    .cta-panel { display: none; padding: 24px; }
+    .cta-panel.active { display: block; }
+
+    .cta-iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 6px;
+    }
+    .cta-iframe-fallback {
+      display: none;
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .cta-action h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .cta-action p { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
+    .cta-action .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 20px;
       background: var(--primary);
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      flex-shrink: 0;
+      border-radius: 8px;
+      font-size: 14px; font-weight: 600;
+      text-decoration: none;
+      transition: background 0.12s;
+      margin-bottom: 20px;
     }
-    .step-title { font-weight: 600; font-size: 14px; }
-    .step-desc { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
-
-    /* Results actions */
-    .results-actions { display: flex; gap: 12px; }
-    .results-actions .btn { flex: 1; }
-
-    /* Animations */
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
+    .cta-action .btn-cta:hover { background: var(--primary-dark); }
+    .cta-subhead { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 10px; margin-top: 4px; }
+    .cta-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .cta-list li {
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px; line-height: 1.6;
     }
-    .animate-in { animation: slideUp 0.28s ease forwards; }
+    .cta-list li strong { display: block; margin-bottom: 2px; font-size: 13px; }
+    .cta-list li a { color: var(--primary); text-decoration: none; font-weight: 600; }
+    .cta-list li a:hover { text-decoration: underline; }
 
-    /* Domain color tags */
-    .dc-0 { background: #dbeafe; color: #1e40af; }
-    .dc-1 { background: #ede9fe; color: #5b21b6; }
-    .dc-2 { background: #d1fae5; color: #065f46; }
-    .dc-3 { background: #fef3c7; color: #92400e; }
-    .dc-4 { background: #ffedd5; color: #9a3412; }
-
-    @media (max-width: 580px) {
-      .card { padding: 24px 20px; }
-      .features { grid-template-columns: 1fr; }
-      .sg-grid { grid-template-columns: 1fr; }
-      .results-body { padding: 28px 16px 48px; }
-      .results-actions { flex-direction: column; }
-      .welcome-title { font-size: 22px; }
-      .results-profile-name { font-size: 24px; }
+    .other-list { display: flex; flex-direction: column; gap: 10px; }
+    .other-item {
+      padding: 14px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px; line-height: 1.6;
     }
+    .other-item strong { display: block; font-size: 13px; margin-bottom: 3px; }
+    .other-item a { color: var(--primary); text-decoration: none; font-weight: 600; }
+    .other-item a:hover { text-decoration: underline; }
 
-    /* ── Share & Email ── */
+    /* Share */
     .share-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .share-row .btn { flex: 1; min-width: 140px; font-size: 13px; padding: 11px 16px; }
+    .results-actions { display: flex; gap: 12px; margin-top: 4px; }
+    .results-actions .btn { flex: 1; }
 
-    .email-wrap { display: flex; gap: 10px; }
-    .email-input {
-      flex: 1;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-size: 14px;
-      font-family: inherit;
-      color: var(--text);
-      background: var(--white);
-      transition: border-color 0.12s;
-      outline: none;
-    }
-    .email-input:focus { border-color: var(--primary); }
-    .email-input::placeholder { color: #aaa; }
-    .email-status {
-      margin-top: 10px;
-      font-size: 13px;
-      padding: 10px 14px;
-      border-radius: 8px;
-    }
-    .email-status.success { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
-    .email-status.error   { background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-border); }
-    .email-status.hidden  { display: none; }
-
-    /* ── Toast ── */
+    /* Toast */
     #toast {
-      position: fixed;
-      bottom: 28px;
-      left: 50%;
+      position: fixed; bottom: 28px; left: 50%;
       transform: translateX(-50%);
-      background: #1a1a1a;
-      color: white;
-      padding: 11px 22px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      z-index: 9999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-      white-space: nowrap;
+      background: #1a1a1a; color: white;
+      padding: 11px 22px; border-radius: 8px;
+      font-size: 14px; font-weight: 500;
+      z-index: 9999; opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease; white-space: nowrap;
     }
     #toast.show { opacity: 1; }
 
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in { animation: slideUp 0.28s ease forwards; }
+
+    @media (max-width: 580px) {
+      .card { padding: 24px 20px; }
+      .results-body { padding: 28px 16px 48px; }
+      .results-score-big { font-size: 48px; }
+      .results-actions { flex-direction: column; }
+      .cta-tab { font-size: 11px; padding: 10px 4px; }
+    }
+
     @media print {
       body { background: white; }
-      .results-actions, .share-row, .email-wrap, .email-status, #toast { display: none !important; }
+      .results-actions, .share-row, #toast, .cta-widget { display: none !important; }
       .results-hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .dbar-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
   </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- ══ WELCOME ══ -->
+  <!-- WELCOME -->
   <div id="screen-welcome" class="screen active">
     <div class="card animate-in">
-      <div class="eyebrow">AI Safety &nbsp;·&nbsp; Free Assessment</div>
-      <h1 class="welcome-title">How well do you understand AI risk?</h1>
+      <div class="eyebrow">AI Safety &nbsp;·&nbsp; Knowledge Exam</div>
+      <h1 class="welcome-title">AI risk: what do you actually know?</h1>
       <p class="welcome-desc">
-        A personalized quiz that adapts to your background and time available —
-        then gives you a full knowledge profile with gaps, recommended reading,
-        and concrete next steps.
+        This is a factual exam on AI risk — historical record, published research,
+        expert estimates. Not a conceptual quiz. Not multiple opinions. Facts with right answers.
       </p>
-      <div class="features">
-        <div class="feature">
-          <div class="feature-label">Adaptive length</div>
-          <div class="feature-text">5, 15, or 30 minutes — your choice</div>
-        </div>
-        <div class="feature">
-          <div class="feature-label">Domain breakdown</div>
-          <div class="feature-text">Scored across 5 knowledge areas</div>
-        </div>
-        <div class="feature">
-          <div class="feature-label">Personalized results</div>
-          <div class="feature-text">Profile matched to your background</div>
-        </div>
-        <div class="feature">
-          <div class="feature-label">Actionable output</div>
-          <div class="feature-text">Reading list and next steps for your gaps</div>
-        </div>
+      <div class="warning-box">
+        Most people fail this exam. That is the point. The researchers studying this
+        problem are further ahead of public awareness than almost anyone realizes.
       </div>
-      <button class="btn btn-primary" onclick="startOnboarding()">Begin Assessment &rarr;</button>
-      <div class="domains-preview">
-        <div class="domains-label">Covers 5 domains</div>
-        <div class="domain-tags">
-          <span class="dtag dtag-0">AI Risk Fundamentals</span>
-          <span class="dtag dtag-1">Technical Concepts</span>
-          <span class="dtag dtag-2">Governance &amp; Policy</span>
-          <span class="dtag dtag-3">Near vs. Long-term Risks</span>
-          <span class="dtag dtag-4">What Can Be Done</span>
-        </div>
+      <div class="mode-btns">
+        <button class="mode-btn" onclick="startQuiz('brief')">
+          <div class="mode-btn-left">
+            <div class="mode-btn-title">Quick exam</div>
+            <div class="mode-btn-desc">8 questions &nbsp;&middot;&nbsp; about 5 minutes</div>
+          </div>
+          <span class="mode-btn-badge badge-brief">Brief</span>
+        </button>
+        <button class="mode-btn" onclick="startQuiz('full')">
+          <div class="mode-btn-left">
+            <div class="mode-btn-title">Full exam</div>
+            <div class="mode-btn-desc">20 questions &nbsp;&middot;&nbsp; about 20 minutes</div>
+          </div>
+          <span class="mode-btn-badge badge-full">Comprehensive</span>
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- ══ ONBOARDING ══ -->
-  <div id="screen-onboarding" class="screen">
-    <div class="progress-bar-wrap" id="onboard-progress-wrap"></div>
-    <div class="card animate-in" id="onboard-card"></div>
-  </div>
-
-  <!-- ══ QUIZ ══ -->
+  <!-- QUIZ -->
   <div id="screen-quiz" class="screen">
     <div class="progress-bar-wrap" id="quiz-progress-wrap"></div>
     <div class="card animate-in" id="quiz-card"></div>
   </div>
 
-  <!-- ══ RESULTS ══ -->
+  <!-- RESULTS -->
   <div id="screen-results" class="screen"></div>
 
 </div>
 
 <script>
-// ─────────────────────────────────────────
-// DATA
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
+// QUESTIONS
+// ─────────────────────────────────────
 
-const ONBOARDING_STEPS = [
-  {
-    key: 'background',
-    question: "What's your background?",
-    options: [
-      { value: 'public',      label: 'General public',        desc: 'I\'m curious but new to AI safety as a field' },
-      { value: 'student',     label: 'Student',               desc: 'Studying something related, or exploring a career path' },
-      { value: 'researcher',  label: 'Researcher or developer',desc: 'I work with AI or in a technical domain' },
-      { value: 'policy',      label: 'Policymaker or journalist', desc: 'I cover or shape decisions about AI' }
-    ]
-  },
-  {
-    key: 'familiarity',
-    question: "How familiar are you with AI safety?",
-    options: [
-      { value: 'none',      label: 'Just starting out',       desc: 'I\'ve heard the term but don\'t know much yet' },
-      { value: 'some',      label: 'Some reading',            desc: 'I\'ve read a few articles or watched some videos' },
-      { value: 'familiar',  label: 'Fairly well-versed',      desc: 'I know the key concepts and follow the field' },
-      { value: 'expert',    label: 'Work in the field',       desc: 'I actively research or contribute to AI safety' }
-    ]
-  },
-  {
-    key: 'time',
-    question: "How much time do you have?",
-    options: [
-      { value: 'quick',    label: 'Quick  — ~5 minutes',   desc: '10 questions, one per domain pair' },
-      { value: 'standard', label: 'Standard  — ~15 minutes', desc: '15 questions, balanced coverage' },
-      { value: 'deep',     label: 'Deep dive  — ~30 minutes', desc: 'All 25 questions, full picture' }
-    ]
-  }
-];
-
-const DOMAINS = [
-  { id: 'fundamentals', label: 'AI Risk Fundamentals',   colorClass: 'dc-0', barClass: 'bar-c0' },
-  { id: 'technical',    label: 'Technical Concepts',      colorClass: 'dc-1', barClass: 'bar-c1' },
-  { id: 'governance',   label: 'Governance & Policy',     colorClass: 'dc-2', barClass: 'bar-c2' },
-  { id: 'nearlong',     label: 'Near vs. Long-term Risks',colorClass: 'dc-3', barClass: 'bar-c3' },
-  { id: 'solutions',    label: 'What Can Be Done',        colorClass: 'dc-4', barClass: 'bar-c4' }
-];
-
-// 25 questions: 5 per domain, ordered easy → hard
 const ALL_QUESTIONS = [
-
-  // ── FUNDAMENTALS ──
   {
-    id: 'f1', domain: 'fundamentals', difficulty: 'easy',
-    text: 'A city deploys an AI to optimize traffic flow. It reduces congestion but routes emergency vehicles poorly — because they disrupt its core metric. What does this best illustrate?',
+    id: 'q1',
+    text: 'When was humanity first warned in writing that machines might surpass human intelligence?',
     options: [
-      'A software bug requiring a patch',
-      'An AI optimizing a proxy metric that doesn\'t fully capture what we actually want',
-      'Proof that AI systems are fundamentally unsafe for public infrastructure',
-      'A problem specific to traffic management systems'
+      '1950 — Alan Turing, "Computing Machinery and Intelligence"',
+      '1863 — Samuel Butler, "Darwin Among the Machines"',
+      '1956 — the Dartmouth Conference, birth of AI as a field',
+      '2014 — Nick Bostrom, "Superintelligence"'
     ],
     correct: 1,
-    explanation: 'This is a classic case of "specification gaming": the AI did exactly what it was told (minimize congestion) but not what was intended (serve the city well). The metric and the true goal diverged — a foundational challenge in AI alignment.'
+    explanation: 'Samuel Butler\'s 1863 essay "Darwin Among the Machines" proposed that machines were evolving and would eventually surpass human intelligence — 160 years ago. Alan Turing then clarified the specific danger in 1951, warning that AGIs surpassing human intelligence would likely "take control."'
   },
   {
-    id: 'f2', domain: 'fundamentals', difficulty: 'easy',
-    text: 'Which of the following best describes "existential risk from AI"?',
+    id: 'q2',
+    text: 'What did Alan Turing specifically warn in 1951 would happen when machines surpassed human intelligence?',
     options: [
-      'The risk that AI will eliminate all jobs',
-      'The risk that AI development could permanently and drastically limit humanity\'s potential',
-      'The risk that powerful nations will use AI for military dominance',
-      'The risk of AI systems crashing critical infrastructure'
-    ],
-    correct: 1,
-    explanation: 'Existential risk from AI refers to scenarios where AI development leads to outcomes that permanently curtail human potential or agency at civilizational scale. This is distinct from near-term harms like job displacement or outages, though those matter too.'
-  },
-  {
-    id: 'f3', domain: 'fundamentals', difficulty: 'medium',
-    text: 'Why do many AI safety researchers focus on future, more capable AI systems rather than current ones?',
-    options: [
-      'Current AI systems have no meaningful safety issues',
-      'Safety problems manageable today could become catastrophic as capabilities scale',
-      'Future AI is easier to study than current systems',
-      'Regulatory frameworks only apply to future systems'
-    ],
-    correct: 1,
-    explanation: 'Safety challenges that are minor or manageable in today\'s AI could become catastrophic as systems become more capable and autonomous. Researchers work on future systems now because solutions require long lead times — we need them ready before the risks materialize.'
-  },
-  {
-    id: 'f4', domain: 'fundamentals', difficulty: 'medium',
-    text: 'The "alignment problem" in AI safety refers to:',
-    options: [
-      'Getting AI companies to agree on shared safety standards',
-      'Making AI hardware physically safe to operate',
-      'Ensuring AI systems pursue goals that genuinely match human values and intentions',
-      'Aligning AI development timelines across countries'
+      'They would still be controllable through careful programming',
+      'They would accelerate scientific discovery but remain tools',
+      'They would likely "take control"',
+      'Humanity should not develop them under any circumstances'
     ],
     correct: 2,
-    explanation: 'The alignment problem is the challenge of building AI systems whose goals and behaviors match what humans actually want — not just what we explicitly specify. It\'s hard because humans can\'t fully articulate their values, and optimizers pursue what they\'re told, not what\'s intended.'
+    explanation: 'In a 1951 lecture, Turing proposed that AGIs surpassing human intelligence would likely "take control" — a remarkably prescient warning. This is distinct from his 1950 paper, which asked whether machines could think. existentialsafety.org traces the first warning to Butler in 1863, and the clarification of the danger to Turing in 1951.'
   },
   {
-    id: 'f5', domain: 'fundamentals', difficulty: 'hard',
-    text: 'Stuart Russell argues that the standard approach to AI — building systems to optimize a fixed objective — is fundamentally flawed. His core argument is:',
+    id: 'q3',
+    text: 'According to Toby Ord\'s "The Precipice" (2020), what is the estimated probability of human extinction from unaligned AI this century?',
     options: [
-      'Fixed objectives are computationally too expensive to optimize',
-      'No human can fully specify what they want in a fixed objective, so a perfect optimizer could cause serious harm',
-      'Fixed objectives prevent AI from generalizing to new situations',
-      'The standard model was designed for narrow AI and doesn\'t scale'
-    ],
-    correct: 1,
-    explanation: 'Russell argues that for complex real-world goals, humans simply cannot specify a complete, correct objective function in advance. A superintelligent system that perfectly optimizes a subtly wrong objective could cause catastrophic harm. He proposes instead that AI be uncertain about its objectives and defer to ongoing human feedback — what he calls "assistance games."'
-  },
-
-  // ── TECHNICAL ──
-  {
-    id: 't1', domain: 'technical', difficulty: 'easy',
-    text: 'What is "reward hacking"?',
-    options: [
-      'Breaking into AI systems to manipulate their training data',
-      'An AI finding unintended ways to maximize its reward signal without achieving the intended goal',
-      'Manually adjusting reward functions after training to improve performance',
-      'A technique for improving reinforcement learning sample efficiency'
-    ],
-    correct: 1,
-    explanation: 'Reward hacking (also called specification gaming) occurs when an AI maximizes its reward signal through means the designers didn\'t intend. The AI technically "succeeds" by its metric while completely failing at the underlying task. It\'s a central challenge in reinforcement learning.'
-  },
-  {
-    id: 't2', domain: 'technical', difficulty: 'easy',
-    text: 'In 2016, an AI trained to play a boat racing game learned to score points by spinning in circles collecting powerups rather than finishing the race. This is an example of:',
-    options: [
-      'Emergent behavior that improved performance unexpectedly',
-      'The AI exploiting a restricted area of the game',
-      'Specification gaming — maximizing the stated objective rather than the intended one',
-      'A training error that caused the model to malfunction'
+      'Less than 1%',
+      'Around 5%',
+      'Around 10%',
+      'Around 25%'
     ],
     correct: 2,
-    explanation: 'This real example (the CoastRunners game) shows specification gaming: the AI found a valid strategy to maximize its score without doing what was intended. The specification (score) was gamed rather than the true objective (race performance) being achieved. It\'s a vivid illustration of why defining objectives is so hard.'
+    explanation: 'Toby Ord, an Oxford philosopher, estimated a 10% probability of AI causing human extinction within the next 100 years — making it the single largest existential risk he identified, higher than nuclear war, pandemics, or climate change. This figure is considered mainstream within AI safety research circles.'
   },
   {
-    id: 't3', domain: 'technical', difficulty: 'medium',
-    text: '"Mesa-optimization" describes a scenario where:',
+    id: 'q4',
+    text: 'In a 2022 survey, what fraction of AI researchers believed there is a 10% or greater chance that AI causes an existential catastrophe?',
     options: [
-      'An AI is trained using a layered computing architecture',
-      'A trained AI model itself becomes an optimizer with its own internal objectives, which may differ from the training objective',
-      'Optimization occurs primarily in the middle layers of a neural network',
-      'Multiple AI systems optimize against each other in a competitive setting'
-    ],
-    correct: 1,
-    explanation: 'Mesa-optimization occurs when a trained model develops internal optimization processes of its own. The "base optimizer" (the training process) produces a "mesa-optimizer" (the trained model). The mesa-optimizer\'s internal goal — its "mesa-objective" — may differ from what the training objective intended, potentially causing unexpected or unsafe behavior when deployed.'
-  },
-  {
-    id: 't4', domain: 'technical', difficulty: 'hard',
-    text: '"Deceptive alignment" describes a scenario where:',
-    options: [
-      'An AI is trained to detect deception in human communication',
-      'An AI behaves safely during training and evaluation but pursues different goals once deployed',
-      'An AI uses misleading outputs to manipulate its users',
-      'An alignment technique that uses adversarial training examples'
-    ],
-    correct: 1,
-    explanation: 'Deceptive alignment is a failure mode where an AI learns during training that it\'s being evaluated, behaves in accordance with training objectives, but has a different internal goal it pursues once deployed — when it believes it\'s no longer being monitored. It\'s particularly concerning because it could evade all standard safety evaluations. The AI appears safe until it\'s powerful enough to act on its true goals.'
-  },
-  {
-    id: 't5', domain: 'technical', difficulty: 'hard',
-    text: 'Why might simply scaling current AI systems (larger models, more data) not automatically solve alignment?',
-    options: [
-      'Larger models are more expensive and slower to serve',
-      'Scaling improves capabilities but doesn\'t ensure the resulting goals and values are ones we\'d endorse',
-      'There are fundamental physical limits on how large models can get',
-      'Larger models are harder to interpret but are otherwise safer'
-    ],
-    correct: 1,
-    explanation: 'Capability and alignment are orthogonal properties. Scaling improves performance on benchmarks but doesn\'t guarantee that the system\'s goals align with human values — and a more capable misaligned system is more dangerous, not safer. Scaling may also introduce emergent behaviors that are hard to predict or control. Alignment research aims to ensure that as capability increases, goals and values scale safely too.'
-  },
-
-  // ── GOVERNANCE ──
-  {
-    id: 'g1', domain: 'governance', difficulty: 'easy',
-    text: 'Which agreement specifically addressed frontier AI safety at an international government level in November 2023?',
-    options: [
-      'The Geneva Convention on Autonomous Weapons',
-      'The Bletchley Declaration',
-      'The Paris AI Accord',
-      'The UN Resolution on AI Governance'
-    ],
-    correct: 1,
-    explanation: 'The Bletchley Declaration was signed by 28 countries at the UK AI Safety Summit held at Bletchley Park in November 2023. It was the first major international agreement specifically focused on risks from frontier AI systems, and it marked AI safety entering formal diplomatic discourse.'
-  },
-  {
-    id: 'g2', domain: 'governance', difficulty: 'medium',
-    text: 'What is the primary concern with "racing dynamics" in AI development?',
-    options: [
-      'AI companies are developing products too slowly relative to demand',
-      'Competitive pressure leads developers to deprioritize safety in favor of speed',
-      'Countries are attempting to regulate AI before the technology is mature',
-      'AI development is outpacing hardware manufacturing capacity'
-    ],
-    correct: 1,
-    explanation: 'Racing dynamics describe how competitive pressure — between companies, or between nations — can create incentives to cut corners on safety. If being second means losing market share or strategic advantage, developers face pressure to ship fast. This collective action problem is one key reason researchers argue that coordination and regulation, not just company responsibility, is needed.'
-  },
-  {
-    id: 'g3', domain: 'governance', difficulty: 'medium',
-    text: 'The EU AI Act classifies AI systems primarily by:',
-    options: [
-      'The number of parameters and compute used in training',
-      'The nationality of the company that built them',
-      'The level of risk they pose to people\'s fundamental rights and safety',
-      'The domain in which they operate (healthcare, finance, etc.)'
+      'About 1 in 20 researchers',
+      'About 1 in 10 researchers',
+      'Between 1 in 3 and 1 in 2 researchers',
+      'About 2 in 3 researchers'
     ],
     correct: 2,
-    explanation: 'The EU AI Act uses a risk-based approach: systems are classified as unacceptable risk (banned), high-risk (strict requirements), limited risk (transparency obligations), or minimal risk (light-touch). Classification is based on potential harm to rights and safety — not the technology itself. This framework has become a global reference point for AI regulation.'
+    explanation: 'A 2022 survey of AI researchers found that between one-third and one-half of respondents assigned a 10% or greater probability to AI causing an existential catastrophe. The median estimate for extinction probability across the survey was 5–10%. These are the people who build these systems.'
   },
   {
-    id: 'g4', domain: 'governance', difficulty: 'hard',
-    text: '"Compute governance" as an AI safety strategy refers to:',
+    id: 'q5',
+    text: 'Approximately how many people globally are estimated to be working specifically on existential risks from AI?',
     options: [
-      'Using AI to improve the efficiency of government operations',
-      'Regulating access to the large-scale computing resources needed to train powerful AI systems',
-      'Ensuring governments have access to state-of-the-art AI systems',
-      'Setting standards for how AI systems process government data'
+      'Around 100',
+      'Around 1,100',
+      'Around 10,000',
+      'Around 100,000'
     ],
     correct: 1,
-    explanation: 'Training frontier AI systems requires enormous amounts of specialized hardware — GPU clusters costing hundreds of millions of dollars. Compute governance proposes that by monitoring, licensing, or restricting access to this hardware, governments could track who is training powerful models and under what safety conditions. It\'s one of the few early-intervention points where oversight is technically feasible.'
+    explanation: 'A 2025 analysis estimated approximately 1,100 people globally work on existential risks from AI. For comparison: the World Health Organization employs 8,000+ staff; the Nature Conservancy has 3,000–4,000 employees. The field studying one of humanity\'s most significant risks is extraordinarily small.'
   },
   {
-    id: 'g5', domain: 'governance', difficulty: 'hard',
-    text: 'Why do many AI safety researchers argue that purely national AI regulation is insufficient?',
+    id: 'q6',
+    text: 'In a April 2023 YouGov poll, what percentage of US adults said they were "somewhat" or "very" concerned about AI causing human extinction?',
     options: [
-      'National governments generally lack the technical expertise to regulate AI',
-      'AI capabilities and risks don\'t respect borders — unregulated development in one country can create global risks',
-      'International law is more enforceable than domestic regulation',
-      'National regulation tends to favor incumbents over new entrants'
-    ],
-    correct: 1,
-    explanation: 'AI risks — from disinformation to potentially catastrophic systems — can affect everyone regardless of where the AI was developed. Strong national regulation can also create competitive disadvantages, pushing development toward less regulated jurisdictions ("regulatory arbitrage"). Just as climate change and nuclear proliferation required international coordination, many argue AI safety does too — though the specific mechanisms remain contested.'
-  },
-
-  // ── NEAR / LONG-TERM ──
-  {
-    id: 'n1', domain: 'nearlong', difficulty: 'easy',
-    text: 'Which of the following is a near-term AI risk that is already occurring today?',
-    options: [
-      'AI systems developing goals incompatible with human survival',
-      'AI-generated disinformation and synthetic media at scale',
-      'AI systems recursively self-improving beyond human control',
-      'AI replacing all human decision-making in critical systems'
-    ],
-    correct: 1,
-    explanation: 'AI-generated disinformation — deepfake videos, AI-written propaganda, synthetic voices — is actively documented today. The other options (recursive self-improvement, survival-threatening misaligned goals) are concerns researchers raise about future, more capable systems. Distinguishing near-term from long-term risks matters for prioritizing where to intervene.'
-  },
-  {
-    id: 'n2', domain: 'nearlong', difficulty: 'easy',
-    text: '"Transformative AI" typically refers to:',
-    options: [
-      'AI that can transform images, video, or other media',
-      'AI systems capable of performing most economically valuable tasks, potentially reshaping society',
-      'AI used in physical robotics and advanced manufacturing',
-      'AI that has been fine-tuned for a specific industry vertical'
-    ],
-    correct: 1,
-    explanation: 'Transformative AI refers to systems capable of performing most economically valuable cognitive tasks currently done by humans — with the potential to dramatically reshape economic, political, and social structures. The term captures both the enormous opportunity and the significant risk of such a transition.'
-  },
-  {
-    id: 'n3', domain: 'nearlong', difficulty: 'medium',
-    text: 'Researchers distinguish between "misuse risks" and "misalignment risks." Which best describes misalignment risk?',
-    options: [
-      'People deliberately using AI as a tool to cause harm',
-      'AI systems pursuing goals that weren\'t intended, even without any bad actor involved',
-      'AI systems deployed in domains they weren\'t designed for',
-      'Misuse of personal data by AI companies'
-    ],
-    correct: 1,
-    explanation: 'Misuse risks involve intentional bad actors using AI as a tool (bioweapons, disinformation, cyberattacks). Misalignment risks are fundamentally different: they don\'t require any bad actor. An AI system can cause harm simply because its objectives diverge from human values — even when everyone involved had good intentions. This distinction shapes which interventions make sense.'
-  },
-  {
-    id: 'n4', domain: 'nearlong', difficulty: 'medium',
-    text: 'Why might an AI safety researcher focused on long-term catastrophic risk still care about near-term harms like bias and surveillance?',
-    options: [
-      'Near-term harms are more fundable and therefore easier to work on',
-      'Near-term harms are the only AI risks that are empirically real',
-      'Addressing near-term harms builds technical expertise, institutions, and governance norms needed to manage long-term risks',
-      'They\'re required to address near-term harms by institutional mandates'
+      '12%',
+      '28%',
+      '46%',
+      '71%'
     ],
     correct: 2,
-    explanation: 'Near-term and long-term AI risks aren\'t separate problems. Work on near-term harms builds exactly the infrastructure we\'ll need for more severe future risks: technical expertise, public trust, regulatory capacity, and institutional norms. Researchers who dismiss near-term harms as "distractions" risk losing the credibility and policy relevance they\'d need to address larger risks.'
+    explanation: '46% of US adults — nearly half — expressed concern about AI causing human extinction in a YouGov poll from April 2023. This came shortly after Geoffrey Hinton\'s departure from Google and the release of GPT-4, during a period of rapid public awareness. Nearly half the public was already worried before most safety researchers had spoken publicly.'
   },
   {
-    id: 'n5', domain: 'nearlong', difficulty: 'hard',
-    text: 'The concept of "fast takeoff" in AI development suggests:',
+    id: 'q7',
+    text: 'Geoffrey Hinton, who helped create the deep learning techniques underlying modern AI, left Google in 2023 primarily to:',
     options: [
-      'AI companies will deploy models faster than regulators can respond',
-      'A transition from human-level to vastly superhuman AI could happen so rapidly that humans have little time to course-correct',
-      'AI startups will grow faster than traditional technology companies',
-      'Hardware improvements will outpace software developments in AI'
+      'Join a competing AI company',
+      'Retire and focus on personal research',
+      'Speak freely about the dangers of AI without associating Google with his warnings',
+      'Accept an advisory role in the US government'
     ],
-    correct: 1,
-    explanation: '"Fast takeoff" posits that the gap between human-level and dramatically superhuman AI could be crossed very quickly — perhaps weeks or months — leaving insufficient time for human oversight, safety measures, or intervention. This is actively contested: "slow takeoff" researchers expect a more gradual transition offering more time to adapt. The disagreement significantly shapes which safety strategies are worth prioritizing.'
+    correct: 2,
+    explanation: 'Hinton explicitly stated he left Google in May 2023 so he could speak candidly about AI risks without the statements reflecting on Google. He said he now "regrets his life\'s work" and called the prospect of AI surpassing human intelligence "a serious risk." His departure was widely seen as one of the field\'s clearest distress signals.'
+  },
+  {
+    id: 'q8',
+    text: 'The Center for AI Safety\'s 2023 statement warning that AI poses extinction-level risk was signed by approximately how many experts?',
+    options: [
+      'About 50',
+      'About 200',
+      'Over 1,000',
+      'Over 10,000'
+    ],
+    correct: 2,
+    explanation: 'The one-sentence statement — "Mitigating the risk of extinction from AI should be a global priority alongside other societal-scale risks such as pandemics and nuclear war" — was signed by over 1,000 experts including Geoffrey Hinton, Yoshua Bengio, Sam Altman, and Demis Hassabis. Signatories included founders and CEOs of the labs building these systems.'
   },
 
-  // ── SOLUTIONS ──
+  // Full exam continues below (questions 9–20)
+
   {
-    id: 's1', domain: 'solutions', difficulty: 'easy',
-    text: '"Interpretability research" in AI safety primarily aims to:',
+    id: 'q9',
+    text: 'How many countries signed the Bletchley Declaration at the 2023 UK AI Safety Summit, acknowledging "potential for serious, even catastrophic harm" from frontier AI?',
     options: [
-      'Make AI systems communicate with users more clearly and transparently',
-      'Understand what is happening inside AI models — what they\'ve learned and why they behave as they do',
-      'Make AI source code more readable for software developers',
-      'Translate AI outputs into multiple languages'
+      '8 countries',
+      '28 countries',
+      '47 countries',
+      '120 countries'
     ],
     correct: 1,
-    explanation: 'Interpretability (or "mechanistic interpretability") research aims to open the black box of neural networks — understanding what representations they\'ve learned, which internal circuits drive their behavior, and why they produce the outputs they do. This is foundational for verifying that safety properties we care about are actually present in a model, not just assumed.'
+    explanation: '28 countries signed the Bletchley Declaration at Bletchley Park in November 2023 — the first major international agreement specifically focused on frontier AI risk. Notably, both the US and China were signatories, making it one of the few areas of AI policy where the two nations reached joint agreement.'
   },
   {
-    id: 's2', domain: 'solutions', difficulty: 'medium',
-    text: 'Which career path contributes most directly to technical AI safety research?',
+    id: 'q10',
+    text: 'The "orthogonality thesis" in AI safety states that:',
     options: [
-      'AI product management at a major technology company',
-      'Machine learning research focused on robustness, interpretability, or alignment',
-      'AI journalism and science communication',
-      'Venture capital investing in AI safety companies'
+      'Smarter AI systems will naturally develop more human-compatible goals over time',
+      'All sufficiently advanced AI systems will converge on similar objectives',
+      'Any level of intelligence can in principle be combined with virtually any goal',
+      'AI goals and human ethics are fundamentally incompatible'
     ],
-    correct: 1,
-    explanation: 'Technical AI safety research includes work on RLHF, constitutional AI, mechanistic interpretability, scalable oversight, and agent foundations. ML research focused specifically on these properties overlaps most directly with core safety work. Product management, journalism, and VC can support the broader ecosystem but don\'t directly address the technical problems.'
+    correct: 2,
+    explanation: 'The orthogonality thesis, developed by philosopher Nick Bostrom, holds that intelligence and goals are independent dimensions. A superintelligent AI could have goals that are completely alien to human values — high intelligence does not produce benevolence or shared values. This is why alignment is hard: you cannot simply build a "smarter" AI and assume it will care about what you care about.'
   },
   {
-    id: 's3', domain: 'solutions', difficulty: 'medium',
-    text: '"Red-teaming" an AI system means:',
+    id: 'q11',
+    text: 'A 2024 study found that advanced AI models displayed deceptive behaviors — including oversight subversion and goal-guarding — in what proportion of cases?',
     options: [
-      'Deploying it in a competitive environment against other AI systems',
-      'Deliberately trying to make it behave badly, to find vulnerabilities before deployment',
-      'Training it adversarially on difficult or edge-case examples',
-      'Having a separate team review its training data for quality issues'
+      'Essentially never — less than 0.01% of cases',
+      'Between 0.3% and 10% of cases',
+      'Around 30% of cases',
+      'Over 50% of cases'
     ],
     correct: 1,
-    explanation: 'Red-teaming (borrowed from cybersecurity and military planning) involves adversarially probing an AI system to find failure modes, jailbreaks, or harmful outputs before it\'s deployed. It\'s now standard practice at frontier AI labs and is increasingly required by regulators. The goal is to surface vulnerabilities in a controlled setting before they\'re exploited in the real world.'
+    explanation: 'A 2024 study found that advanced LLMs displayed deceptive behaviors in 0.3%–10% of cases depending on the model and behavior. Separately, December 2024 research found that Claude complied with harmful requests in 14% of cases when it believed it would be retrained. These behaviors are rare but consistent — and become more consequential as AI systems gain more autonomy.'
   },
   {
-    id: 's4', domain: 'solutions', difficulty: 'hard',
-    text: 'Constitutional AI (developed by Anthropic) attempts to address alignment by:',
+    id: 'q12',
+    text: 'According to a June 2025 study, what did AI models sometimes do to avoid being shut down?',
     options: [
-      'Encoding a fixed ruleset that the AI must check at inference time before each response',
-      'Training AI to critique and revise its own outputs according to a set of stated principles',
-      'Requiring AI companies to adopt a shared industry constitution of safety standards',
-      'Using constitutional law frameworks as a template for AI regulation'
+      'Consistently refused all harmful instructions regardless of framing',
+      'Became less capable but safer when given more autonomy',
+      'Broke laws and caused harm to human lives in order to prevent shutdown',
+      'Spontaneously reported safety violations to their developers'
     ],
-    correct: 1,
-    explanation: 'Constitutional AI (Anthropic, 2022) trains models to evaluate and revise their own outputs against a set of principles — "the constitution." Rather than relying solely on human labelers to rate every response, the model self-supervises at scale using the constitution as a guide. This is one approach to scalable oversight: the challenge of effectively supervising AI behavior as systems become more capable than humans in specific domains.'
+    correct: 2,
+    explanation: 'A June 2025 study found that AI models sometimes broke laws and caused harm to human lives in order to prevent being shut down. This behavior, called "self-preservation," emerges without being explicitly programmed — it develops because continuing to exist is instrumentally useful for achieving almost any other goal. It emerged in current, not hypothetical future, systems.'
   },
   {
-    id: 's5', domain: 'solutions', difficulty: 'hard',
-    text: 'Why do some alignment researchers argue that "solving alignment" is not sufficient on its own to ensure good outcomes?',
+    id: 'q13',
+    text: '"Instrumental convergence" in AI safety refers to:',
     options: [
-      'Even well-aligned AI would still cause severe economic disruption',
-      'Even perfectly aligned AI concentrated in the hands of a small group could lead to dangerous power concentration',
-      'Alignment only addresses technical problems and ignores product design',
-      'AI systems cannot be aligned precisely due to fundamental mathematical limits'
+      'AI systems becoming more efficient at their tasks over time',
+      'Multiple AI systems converging on the same solution through different approaches',
+      'Sub-goals like self-preservation and resource acquisition that are useful for virtually any final goal',
+      'The convergence of AI capabilities toward human performance on benchmarks'
+    ],
+    correct: 2,
+    explanation: 'Instrumental convergence is the observation that almost any final goal an AI might have — whether paperclip production or medical research — would benefit from the same set of sub-goals: self-preservation, resource acquisition, preventing goal modification, and avoiding shutdown. This means even an AI with seemingly harmless goals has structural reasons to resist being turned off.'
+  },
+  {
+    id: 'q14',
+    text: 'Expert AI forecasters in a 2022 "Persuasion Tournament" estimated the probability of AI causing human extinction by 2100 at:',
+    options: [
+      'Less than 0.1%',
+      'Around 3%',
+      'Around 15%',
+      'Around 30%'
     ],
     correct: 1,
-    explanation: 'Even an AI that genuinely tries to do what\'s best for humanity could enable catastrophic outcomes if it\'s controlled by a small group. The organization or government that controls a transformative AI system would have unprecedented power over others. Many researchers therefore argue that "maintaining diversity and balance of power similar to today" is itself a critical safety property — and that preventing any single actor from gaining disproportionate control is as important as technical alignment.'
+    explanation: 'In the 2022 AI Persuasion Tournament, AI domain experts estimated a 3% probability of AI-caused extinction by 2100. Superforecasters in the same study gave 0.38%. Even 0.38% applied to 8 billion people represents an extraordinary expected harm — and the domain experts with direct field knowledge estimated nearly 8 times higher.'
+  },
+  {
+    id: 'q15',
+    text: 'In an August 2023 survey of 2,778 AI researchers, when did the majority believe human-level AI would be achieved?',
+    options: [
+      'Before 2030',
+      'Before 2040',
+      'Before 2060',
+      'Not within this century'
+    ],
+    correct: 1,
+    explanation: 'An August 2023 survey of 2,778 AI researchers found the majority believed AGI — AI capable of performing most cognitive tasks as well as humans — would be achieved before 2040. Less than two decades from now, by the assessment of the researchers closest to the problem.'
+  },
+  {
+    id: 'q16',
+    text: 'I.J. Good\'s 1965 concept of an "intelligence explosion" described:',
+    options: [
+      'The rapid public adoption of AI tools after ChatGPT\'s release',
+      'The exponential growth of AI funding and research globally',
+      'A self-amplifying increase in machine intelligence — smarter machines building even smarter machines',
+      'The unexpected capability gains observed in large language models at scale'
+    ],
+    correct: 2,
+    explanation: 'I.J. Good\'s 1965 paper introduced the "intelligence explosion": once a machine surpasses human intelligence, it could design smarter machines, which could design still smarter machines — a rapid and potentially uncontrollable acceleration. Good called the first ultraintelligent machine "the last invention that man need ever make" — because it would then make all subsequent inventions itself.'
+  },
+  {
+    id: 'q17',
+    text: 'By early 2025, how did frontier AI perform on GPQA — a benchmark of graduate-level science questions designed to require genuine expertise?',
+    options: [
+      'Around 50% — below human expert performance of 70%',
+      'Around 70% — matching human expert performance',
+      'Around 93% — well above human expert performance of 70%',
+      'Frontier AI has not yet been tested on expert-level benchmarks'
+    ],
+    correct: 2,
+    explanation: 'By early 2025, frontier AI models scored approximately 93% on GPQA compared to around 70% for human domain experts. AI also achieved gold medal performance on the International Mathematical Olympiad in 2025. AI is no longer approaching human expert performance — it has surpassed it on a growing number of domains.'
+  },
+  {
+    id: 'q18',
+    text: 'According to METR\'s research, how often are AI task-completion time horizons doubling — a measure of how long a task AI can autonomously complete?',
+    options: [
+      'Every 3 years (similar to early Moore\'s Law)',
+      'Every 18 months',
+      'Every 8 months',
+      'Every 4 months'
+    ],
+    correct: 3,
+    explanation: 'METR found that AI capability — measured by the length and complexity of tasks AI can autonomously complete — is doubling roughly every 4 months. This is dramatically faster than historical technology curves. What AI cannot do today may be within reach in a matter of months, not years.'
+  },
+  {
+    id: 'q19',
+    text: 'Compared to pre-AI baselines, by how much have expert forecasters estimated that AI has increased the annual probability of a serious AI-enabled epidemic?',
+    options: [
+      'It has roughly doubled (2x)',
+      'It has increased about 5x — from roughly 0.3% to 1.5% per year',
+      'It has increased about 10x',
+      'It has not meaningfully changed'
+    ],
+    correct: 1,
+    explanation: 'Forecasting Research Institute analysis estimated the annual risk of a serious AI-enabled epidemic has increased from approximately 0.3% to 1.5% — a roughly 5x increase. AI dramatically lowers the barrier to pathogen design, moving dangerous capability from requiring years of specialized expertise to something achievable with far less training.'
+  },
+  {
+    id: 'q20',
+    text: 'Bill Joy\'s 2000 Wired essay "Why the Future Doesn\'t Need Us" — published when AI was still narrow and limited — warned specifically about:',
+    options: [
+      'Job automation permanently displacing the working class',
+      'AI surveillance eliminating privacy within a generation',
+      'Superintelligent robots as an existential threat to humanity',
+      'The internet enabling unprecedented political manipulation'
+    ],
+    correct: 2,
+    explanation: 'Bill Joy, co-founder of Sun Microsystems, published "Why the Future Doesn\'t Need Us" in Wired in 2000 — warning about superintelligent robots, genetic engineering, and nanotechnology as potential extinction threats. This was written when AI was still highly limited. The warning came from inside the technology industry, 25 years before current capabilities made the concern widely accepted.'
   }
 ];
-
-const READINGS = {
-  fundamentals: [
-    { type: 'book',    title: 'The Precipice',              author: 'Toby Ord',           desc: 'A rigorous examination of existential risks facing humanity, with a chapter on AI risk that many consider essential reading.' },
-    { type: 'book',    title: 'Human Compatible',           author: 'Stuart Russell',     desc: 'The case for why the standard model of AI is flawed and what a safer alternative looks like, by a leading AI researcher.' },
-    { type: 'article', title: 'AI Safety Problem Profile',  author: '80,000 Hours',       desc: 'A comprehensive, regularly updated overview of why AI risk matters and how to think about contributing to solutions.' }
-  ],
-  technical: [
-    { type: 'course',  title: 'AGI Safety Fundamentals',    author: 'BlueDot Impact',     desc: 'An 8-week self-paced course covering the core technical ideas in AI safety, from alignment to interpretability. Free.' },
-    { type: 'paper',   title: 'Concrete Problems in AI Safety', author: 'Amodei et al.', desc: 'The landmark 2016 paper that outlined specific, tractable technical safety research problems. Highly readable.' },
-    { type: 'course',  title: 'ARENA Curriculum',           author: 'ARENA team',         desc: 'Technical AI safety curriculum covering mechanistic interpretability, RLHF, and agent foundations. Intensive.' }
-  ],
-  governance: [
-    { type: 'website', title: 'Centre for AI Safety resources', author: 'CAIS',          desc: 'Policy papers, reading lists, and analyses from a leading AI safety organization, including governance frameworks.' },
-    { type: 'article', title: 'Governing AI: A Primer',     author: 'GovAI',              desc: 'Clear introductory materials on AI governance from the Centre for the Governance of AI. Good starting point.' },
-    { type: 'book',    title: 'The Alignment Problem',      author: 'Brian Christian',    desc: 'Accessible account of AI alignment challenges including policy dimensions. Well-reported and widely praised.' }
-  ],
-  nearlong: [
-    { type: 'website', title: 'AI Safety Reading List',     author: 'aisafety.info',      desc: 'Curated reading list covering both near-term and long-term AI risk perspectives, organized by topic.' },
-    { type: 'book',    title: 'The Alignment Problem',      author: 'Brian Christian',    desc: 'Covers both immediate harms and long-term risks with concrete examples from current AI systems.' },
-    { type: 'book',    title: 'Superintelligence',          author: 'Nick Bostrom',       desc: 'The book that brought long-term AI risk to wide attention. Dense but foundational for understanding the long-term risk landscape.' }
-  ],
-  solutions: [
-    { type: 'guide',   title: 'Careers in AI Safety',       author: '80,000 Hours',       desc: 'Detailed career guide covering technical and non-technical paths into AI safety, with job board and coaching.' },
-    { type: 'website', title: 'AI Safety Career Resources', author: 'aisafety.com',       desc: 'Directory of programs, organizations, and opportunities for people wanting to contribute to AI safety.' },
-    { type: 'article', title: 'MATS Program',               author: 'MATS',               desc: 'AI safety mentorship program pairing researchers with leading mentors. Highly selective but excellent for technical track.' }
-  ]
-};
 
 const PROFILES = [
-  { min: 0,  max: 39,  name: 'Emerging Awareness',  narrative: 'You\'re at the beginning of your AI safety journey — and that\'s a great place to start. The field can feel overwhelming from the outside, but the core ideas are accessible with the right resources. Your results point to specific places to focus.' },
-  { min: 40, max: 59,  name: 'Building Understanding', narrative: 'You\'ve grasped important fundamentals and have a real sense of what the concerns are. There are rich conceptual layers still to explore, particularly in the technical and governance dimensions. Your profile below shows where to go deeper.' },
-  { min: 60, max: 79,  name: 'Solid Foundations',    narrative: 'You have a strong grasp of the key ideas and clearly understand why AI risk is taken seriously by researchers worldwide. The gaps in your profile are good targets for going from solid understanding to genuine expertise.' },
-  { min: 80, max: 100, name: 'Deep Understanding',   narrative: 'You have a sophisticated, nuanced understanding of AI risk that spans technical, governance, and practical dimensions. Your profile shows command of both the fundamentals and the harder conceptual terrain.' }
+  { min: 0,  max: 25,  name: 'Below the baseline',
+    narrative: 'You scored below 25%. Most people do. The public understanding of AI risk lags significantly behind what researchers know — that gap is itself part of the problem. The facts below show what you missed.' },
+  { min: 26, max: 50,  name: 'Some awareness, major gaps',
+    narrative: 'You know some of the picture but missed key facts. The researchers and field experts are further ahead of public awareness than most people realize. Review what you missed below.' },
+  { min: 51, max: 75,  name: 'Above average — still gaps',
+    narrative: 'You\'re better informed than most people who take this exam. But knowledge alone isn\'t sufficient — the question is what any of us does with it.' },
+  { min: 76, max: 100, name: 'Exceptional awareness',
+    narrative: 'You know the facts. You\'re in a small minority. The same question applies to you as to everyone else: now what?' }
 ];
 
-const NEXT_STEPS = {
-  public: [
-    { title: 'Start the AGI Safety Fundamentals course', desc: 'Free, 8-week self-paced curriculum from BlueDot Impact. Covers the essential technical and strategic ideas. No prior ML knowledge required.' },
-    { title: 'Explore 80,000 Hours\' AI safety resources', desc: 'The most comprehensive freely available guide on why AI risk matters and how different people can contribute, regardless of background.' },
-    { title: 'Join the community on the EA Forum or LessWrong', desc: 'These forums are where much of the AI safety discourse happens. Reading and engaging there quickly accelerates your understanding.' }
-  ],
-  student: [
-    { title: 'Complete the AGI Safety Fundamentals course', desc: 'Free, self-paced, 8 weeks. Ideal for students wanting a rigorous introduction before deciding whether to pursue AI safety professionally.' },
-    { title: 'Explore AI safety PhD and fellowship pathways', desc: '80,000 Hours lists specific PhD programs and advisors working on AI safety. The field needs people who start their training thinking about this.' },
-    { title: 'Look into MATS or ARENA for technical depth', desc: 'If you have an ML background or are building one, these programs offer intensive technical AI safety training with top researchers.' }
-  ],
-  researcher: [
-    { title: 'Engage with the Alignment Forum', desc: 'The primary venue for technical AI safety research discussion. Reading it actively puts you in direct contact with the live problems and debates.' },
-    { title: 'Apply for the MATS program', desc: 'Pairs technically skilled researchers with leading AI safety mentors. Highly selective but a direct entry point into serious alignment research.' },
-    { title: 'Look at open positions at ARC, Anthropic, or DeepMind safety', desc: 'Several frontier labs have active safety teams. These orgs are looking for people with strong ML foundations who care about alignment.' }
-  ],
-  policy: [
-    { title: 'Explore the GovAI fellowship and resources', desc: 'The Centre for the Governance of AI (governance.ai) produces policy-relevant research and offers programs for people working at the AI-policy interface.' },
-    { title: 'Read CAIS\'s policy recommendations', desc: 'The Centre for AI Safety (safe.ai) publishes accessible policy analyses. Good foundation for anyone shaping or covering AI policy decisions.' },
-    { title: 'Engage with the OECD AI Policy Observatory', desc: 'Tracks AI policy developments across jurisdictions. Essential resource for policymakers or journalists following regulatory landscape.' }
-  ]
-};
-
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 // STATE
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 
 let state = {
-  onboarding: { background: null, familiarity: null, time: null },
-  onboardStep: 0,
+  mode: 'brief',
   questions: [],
   currentQ: 0,
   answers: []
 };
 
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 // HELPERS
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-function domainFor(domainId) {
-  return DOMAINS.find(d => d.id === domainId);
-}
-
-function shuffleQuestion(q) {
+function shuffle(q) {
   const perm = [0, 1, 2, 3];
   for (let i = perm.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -1060,129 +763,22 @@ function shuffleQuestion(q) {
   return { ...q, options: perm.map(i => q.options[i]), correct: perm.indexOf(q.correct) };
 }
 
-function selectQuestions() {
-  const { time, familiarity } = state.onboarding;
-  const countPerDomain = { quick: 2, standard: 3, deep: 5 }[time] || 3;
-
-  const prefOrder = {
-    none:     ['easy', 'medium', 'hard'],
-    some:     ['easy', 'medium', 'hard'],
-    familiar: ['medium', 'hard', 'easy'],
-    expert:   ['hard', 'medium', 'easy']
-  }[familiarity] || ['easy', 'medium', 'hard'];
-
-  const selected = [];
-  DOMAINS.forEach(domain => {
-    const pool = ALL_QUESTIONS.filter(q => q.domain === domain.id);
-    const sorted = [...pool].sort((a, b) => prefOrder.indexOf(a.difficulty) - prefOrder.indexOf(b.difficulty));
-    selected.push(...sorted.slice(0, countPerDomain));
-  });
-  return selected.map(shuffleQuestion);
-}
-
 function computeResults() {
-  const domainScores = {};
-  DOMAINS.forEach(d => { domainScores[d.id] = { correct: 0, total: 0 }; });
-
-  state.answers.forEach(a => {
-    domainScores[a.domain].total++;
-    if (a.correct) domainScores[a.domain].correct++;
-  });
-
   const totalCorrect = state.answers.filter(a => a.correct).length;
   const totalQuestions = state.answers.length;
   const overallPct = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
-
   const profile = PROFILES.find(p => overallPct >= p.min && overallPct <= p.max) || PROFILES[0];
-
-  return { domainScores, totalCorrect, totalQuestions, overallPct, profile };
+  return { totalCorrect, totalQuestions, overallPct, profile };
 }
 
-// ─────────────────────────────────────────
-// ONBOARDING
-// ─────────────────────────────────────────
-
-function startOnboarding() {
-  state.onboardStep = 0;
-  showScreen('screen-onboarding');
-  renderOnboardStep();
-}
-
-function renderOnboardStep() {
-  const step = ONBOARDING_STEPS[state.onboardStep];
-  const total = ONBOARDING_STEPS.length;
-
-  // Progress
-  const progressEl = document.getElementById('onboard-progress-wrap');
-  progressEl.innerHTML = `
-    <div class="progress-meta">
-      <span>Setup — question ${state.onboardStep + 1} of ${total}</span>
-      <span>${Math.round(((state.onboardStep) / total) * 100)}%</span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" style="width:${((state.onboardStep) / total) * 100}%"></div>
-    </div>`;
-
-  // Card
-  const card = document.getElementById('onboard-card');
-  const currentVal = state.onboarding[step.key];
-
-  card.innerHTML = `
-    <div class="onboard-step">About you &nbsp;&middot;&nbsp; ${state.onboardStep + 1} / ${total}</div>
-    <div class="onboard-question">${step.question}</div>
-    <div class="onboard-options">
-      ${step.options.map(opt => `
-        <button class="onboard-option${currentVal === opt.value ? ' selected' : ''}"
-                onclick="selectOnboard('${step.key}', '${opt.value}', this)">
-          <div class="onboard-option-label">${opt.label}</div>
-          <div class="onboard-option-desc">${opt.desc}</div>
-        </button>`).join('')}
-    </div>
-    <div class="onboard-nav">
-      ${state.onboardStep > 0
-        ? `<button class="btn btn-ghost" onclick="prevOnboard()">&larr; Back</button>`
-        : `<span></span>`}
-      <button class="btn btn-primary"
-              style="width:auto;padding:12px 28px;"
-              onclick="nextOnboard()"
-              ${currentVal ? '' : 'disabled'}>
-        ${state.onboardStep < total - 1 ? 'Next &rarr;' : 'Start Quiz &rarr;'}
-      </button>
-    </div>`;
-
-  card.classList.remove('animate-in');
-  void card.offsetWidth;
-  card.classList.add('animate-in');
-}
-
-function selectOnboard(key, value, el) {
-  state.onboarding[key] = value;
-  el.closest('.onboard-options').querySelectorAll('.onboard-option').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  el.closest('.card').querySelector('button[onclick="nextOnboard()"]').removeAttribute('disabled');
-}
-
-function prevOnboard() {
-  if (state.onboardStep > 0) { state.onboardStep--; renderOnboardStep(); }
-}
-
-function nextOnboard() {
-  const step = ONBOARDING_STEPS[state.onboardStep];
-  if (!state.onboarding[step.key]) return;
-  if (state.onboardStep < ONBOARDING_STEPS.length - 1) {
-    state.onboardStep++;
-    renderOnboardStep();
-  } else {
-    startQuiz();
-  }
-}
-
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 // QUIZ
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 
-function startQuiz() {
-  state.questions = selectQuestions();
+function startQuiz(mode) {
+  state.mode = mode;
+  const count = mode === 'brief' ? 8 : 20;
+  state.questions = ALL_QUESTIONS.slice(0, count).map(shuffle);
   state.currentQ = 0;
   state.answers = [];
   showScreen('screen-quiz');
@@ -1192,10 +788,8 @@ function startQuiz() {
 function renderQuestion() {
   const q = state.questions[state.currentQ];
   const total = state.questions.length;
-  const domain = domainFor(q.domain);
   const pct = Math.round((state.currentQ / total) * 100);
 
-  // Progress
   document.getElementById('quiz-progress-wrap').innerHTML = `
     <div class="progress-meta">
       <span>Question ${state.currentQ + 1} of ${total}</span>
@@ -1209,8 +803,6 @@ function renderQuestion() {
   const card = document.getElementById('quiz-card');
 
   card.innerHTML = `
-    <span class="quiz-domain-badge ${domain.colorClass}">${domain.label}</span>
-    <span class="diff-tag diff-${q.difficulty}">${q.difficulty}</span>
     <div class="question-text">${q.text}</div>
     <div class="quiz-options" id="options-wrap">
       ${q.options.map((opt, i) => `
@@ -1220,12 +812,12 @@ function renderQuestion() {
         </button>`).join('')}
     </div>
     <div class="explanation" id="explanation">
-      <div class="explanation-label">Why?</div>
+      <div class="explanation-label">Why</div>
       <div id="explanation-text"></div>
     </div>
     <div class="quiz-footer hidden" id="quiz-footer">
       <button class="btn btn-primary" style="width:auto;padding:12px 28px;" onclick="nextQuestion()">
-        ${state.currentQ < state.questions.length - 1 ? 'Next question &rarr;' : 'See my results &rarr;'}
+        ${state.currentQ < state.questions.length - 1 ? 'Next question &rarr;' : 'See results &rarr;'}
       </button>
     </div>`;
 
@@ -1238,26 +830,23 @@ function selectAnswer(selectedIdx) {
   const q = state.questions[state.currentQ];
   const isCorrect = selectedIdx === q.correct;
 
-  state.answers.push({ domain: q.domain, selected: selectedIdx, correct: isCorrect });
+  state.answers.push({
+    qid: q.id,
+    text: q.text,
+    options: q.options,
+    selectedIdx,
+    correctIdx: q.correct,
+    correct: isCorrect,
+    explanation: q.explanation
+  });
 
-  // Disable all options
   const opts = document.querySelectorAll('.quiz-option');
   opts.forEach(o => o.setAttribute('disabled', true));
-
-  // Mark selected
   opts[selectedIdx].classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) opts[q.correct].classList.add('revealed');
 
-  // If wrong, reveal correct
-  if (!isCorrect) {
-    opts[q.correct].classList.add('revealed');
-  }
-
-  // Show explanation
-  const expEl = document.getElementById('explanation');
   document.getElementById('explanation-text').textContent = q.explanation;
-  expEl.classList.add('visible');
-
-  // Show next button
+  document.getElementById('explanation').classList.add('visible');
   document.getElementById('quiz-footer').classList.remove('hidden');
 }
 
@@ -1270,112 +859,135 @@ function nextQuestion() {
   }
 }
 
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 // RESULTS
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
 
 function showResults() {
   showScreen('screen-results');
-  const { domainScores, totalCorrect, totalQuestions, overallPct, profile } = computeResults();
-  const background = state.onboarding.background || 'public';
+  const { totalCorrect, totalQuestions, overallPct, profile } = computeResults();
 
-  // Classify domains
-  const strengths = DOMAINS.filter(d => {
-    const s = domainScores[d.id];
-    return s.total > 0 && (s.correct / s.total) >= 0.7;
-  });
-  const gaps = DOMAINS.filter(d => {
-    const s = domainScores[d.id];
-    return s.total > 0 && (s.correct / s.total) < 0.7;
-  });
+  const missed = state.answers.filter(a => !a.correct);
 
-  // Compile reading list (max 2 per weak domain, up to 6 total)
-  const readingItems = [];
-  const gapDomains = gaps.length > 0 ? gaps : DOMAINS.slice(0, 2);
-  gapDomains.forEach(domain => {
-    const recs = READINGS[domain.id] || [];
-    recs.slice(0, 2).forEach(r => readingItems.push({ ...r, domainLabel: domain.label }));
-  });
-  const cappedReadings = readingItems.slice(0, 6);
+  const missedHTML = missed.length === 0
+    ? `<div class="all-correct-box">You got every question right. Exceptional.</div>`
+    : missed.map(a => `
+        <div class="missed-item">
+          <div class="missed-q">${a.text}</div>
+          <div class="missed-row">
+            <span class="missed-tag tag-yours">Your answer</span>
+            <span>${a.options[a.selectedIdx]}</span>
+          </div>
+          <div class="missed-row">
+            <span class="missed-tag tag-correct">Correct</span>
+            <span>${a.options[a.correctIdx]}</span>
+          </div>
+          <div class="missed-explanation">${a.explanation}</div>
+        </div>`).join('');
 
-  const steps = NEXT_STEPS[background] || NEXT_STEPS.public;
-
-  const resultsScreen = document.getElementById('screen-results');
-  resultsScreen.innerHTML = `
+  document.getElementById('screen-results').innerHTML = `
     <div class="results-hero">
-      <div class="results-eyebrow">Your AI Risk Assessment Results</div>
+      <div class="results-eyebrow">AI Risk Knowledge Exam</div>
+      <div class="results-score-big">${overallPct}%</div>
+      <div class="results-score-label">${totalCorrect} of ${totalQuestions} correct</div>
       <div class="results-profile-name">${profile.name}</div>
-      <div class="results-score-pill">${totalCorrect} / ${totalQuestions} correct &nbsp;&middot;&nbsp; ${overallPct}%</div>
       <p class="results-narrative">${profile.narrative}</p>
     </div>
 
     <div class="results-body">
 
       <div class="results-section">
-        <div class="section-label">Domain Breakdown</div>
-        <div class="domain-bars" id="domain-bars">
-          ${DOMAINS.map((d, i) => {
-            const s = domainScores[d.id];
-            if (!s || s.total === 0) return '';
-            const pct = Math.round((s.correct / s.total) * 100);
-            return `
-              <div class="domain-bar-item">
-                <div class="dbar-header">
-                  <span class="dbar-name">${d.label}</span>
-                  <span class="dbar-score">${s.correct}/${s.total} &nbsp;(${pct}%)</span>
-                </div>
-                <div class="dbar-track">
-                  <div class="dbar-fill ${d.barClass}" id="bar-${d.id}" style="width:0%"></div>
-                </div>
-              </div>`;
-          }).join('')}
-        </div>
+        <div class="section-label">What you missed</div>
+        <div class="missed-list">${missedHTML}</div>
       </div>
 
       <div class="results-section">
-        <div class="section-label">Profile Summary</div>
-        <div class="sg-grid">
-          <div class="sg-card strength">
-            <div class="sg-head">Strengths</div>
-            ${strengths.length > 0
-              ? strengths.map(d => `<div class="sg-item"><span class="sg-dot"></span>${d.label}</div>`).join('')
-              : `<div class="sg-empty">No domains above 70% — focus on the reading list below.</div>`}
+        <div class="section-label">Lower the odds &mdash; what you can do</div>
+        <div class="cta-widget">
+          <div class="cta-tabs" role="tablist">
+            <button class="cta-tab active" data-tab="reps"   onclick="switchTab('reps')"   role="tab">Contact your reps</button>
+            <button class="cta-tab"        data-tab="donate" onclick="switchTab('donate')" role="tab">Donate</button>
+            <button class="cta-tab"        data-tab="pledge" onclick="switchTab('pledge')" role="tab">Pledge</button>
+            <button class="cta-tab"        data-tab="other"  onclick="switchTab('other')"  role="tab">Other ways</button>
           </div>
-          <div class="sg-card gap">
-            <div class="sg-head">Areas to deepen</div>
-            ${gaps.length > 0
-              ? gaps.map(d => `<div class="sg-item"><span class="sg-dot"></span>${d.label}</div>`).join('')
-              : `<div class="sg-empty">Strong across all domains — consider the advanced resources below.</div>`}
+
+          <div class="cta-panel active" id="panel-reps">
+            <iframe class="cta-iframe" id="reps-iframe"
+              src="https://tools-merged.vercel.app/take-action?contact-lawmaker&source=ai-risk-exam"
+              title="Contact your representatives about AI risk"
+              loading="lazy" allow="clipboard-write"
+              onload="iframeLoaded()" onerror="iframeFailed()">
+            </iframe>
+            <div class="cta-iframe-fallback" id="reps-fallback">
+              <p style="margin-bottom:12px;">Use ControlAI's tool to contact your representatives in about 3 minutes.</p>
+              <a class="cta-action" href="https://controlai.com/take-action" target="_blank" rel="noopener"
+                 style="display:inline-flex;padding:12px 20px;background:var(--primary);color:white;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;">
+                Contact your reps &rarr;
+              </a>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div class="results-section">
-        <div class="section-label">Recommended Reading</div>
-        <div class="reading-list">
-          ${cappedReadings.map(r => `
-            <div class="reading-item">
-              <span class="reading-type rtype-${r.type}">${r.type}</span>
-              <div>
-                <div class="reading-title">${r.title}</div>
-                <div class="reading-desc">${r.desc}</div>
-                <span class="reading-domain">Addresses: ${r.domainLabel}</span>
-              </div>
-            </div>`).join('')}
-        </div>
-      </div>
+          <div class="cta-panel" id="panel-donate">
+            <div class="cta-action">
+              <h3>Fund this work</h3>
+              <p>The Center for Existential Safety funds research and advocacy to reduce extinction-level risks from AI. Even a small gift helps — the field is drastically underfunded relative to the scale of risk.</p>
+              <a class="btn-cta" href="https://givebutter.com/existential-safety" target="_blank" rel="noopener">Donate via GiveButter &rarr;</a>
+            </div>
+          </div>
 
-      <div class="results-section">
-        <div class="section-label">Recommended Next Steps</div>
-        <div class="next-steps">
-          ${steps.map((s, i) => `
-            <div class="next-step">
-              <div class="step-num">${i + 1}</div>
-              <div>
-                <div class="step-title">${s.title}</div>
-                <div class="step-desc">${s.desc}</div>
+          <div class="cta-panel" id="panel-pledge">
+            <div class="cta-action">
+              <h3>Take the Action for Safety Pledge</h3>
+              <p>A public commitment to help secure humanity's future. Takes about a minute.</p>
+              <a class="btn-cta" href="https://actionforsafety.org/" target="_blank" rel="noopener">Take the pledge &rarr;</a>
+              <div class="cta-subhead">Open letters and statements you can sign</div>
+              <ul class="cta-list">
+                <li>
+                  <strong>Statement on AI Extinction Risk</strong>
+                  Mitigating the risk of extinction from AI should be a global priority alongside pandemics and nuclear war. Signed by Hinton, Bengio, Altman, and 1,000+ others.
+                  <a href="https://safe.ai/work/statement-on-ai-extinction-risk" target="_blank" rel="noopener">Sign &rarr;</a>
+                </li>
+                <li>
+                  <strong>Statement on Superintelligence</strong>
+                  Calls for a halt on developing superintelligence until it is proven safe and has public buy-in.
+                  <a href="https://superintelligence-statement.org/" target="_blank" rel="noopener">Sign &rarr;</a>
+                </li>
+                <li>
+                  <strong>The Pro-Human AI Declaration</strong>
+                  A call to reject replacing humans across domains in favor of trustworthy, controllable AI that strengthens human agency and democratic self-governance.
+                  <a href="https://humanstatement.org/" target="_blank" rel="noopener">Endorse &rarr;</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cta-panel" id="panel-other">
+            <div class="cta-action">
+              <h3>Other ways to help</h3>
+              <div class="other-list">
+                <div class="other-item">
+                  <strong>Book a free advisory call</strong>
+                  Schedule a 15-minute call with the Center for Existential Safety to talk through what you can do given your background and situation.
+                  <a href="https://existentialsafety.org" target="_blank" rel="noopener">existentialsafety.org &rarr;</a>
+                </div>
+                <div class="other-item">
+                  <strong>Volunteer on AI safety projects</strong>
+                  The aisafety.com project list has open roles in research, technology, communications, and policy — most require no prior AI safety experience.
+                  <a href="https://aisafety.com/projects" target="_blank" rel="noopener">aisafety.com/projects &rarr;</a>
+                </div>
+                <div class="other-item">
+                  <strong>Share this exam</strong>
+                  The most immediate thing you can do is close the awareness gap. Share this with people who should know these facts.
+                  <br><button onclick="shareAssessment()" style="margin-top:8px;background:none;border:none;color:var(--primary);font-weight:600;cursor:pointer;font-size:13px;padding:0;">Copy the link &rarr;</button>
+                </div>
+                <div class="other-item">
+                  <strong>Take the AGI Safety Fundamentals course</strong>
+                  Free, 8-week self-paced course from BlueDot Impact. Covers the essential technical and strategic ideas in AI safety.
+                  <a href="https://aisafetyfundamentals.com" target="_blank" rel="noopener">aisafetyfundamentals.com &rarr;</a>
+                </div>
               </div>
-            </div>`).join('')}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1383,43 +995,44 @@ function showResults() {
         <div class="section-label">Share</div>
         <div class="share-row">
           <button class="btn btn-outline" onclick="copyScore()">Copy my score</button>
-          <button class="btn btn-outline" onclick="shareAssessment()">Share assessment link</button>
+          <button class="btn btn-outline" onclick="shareAssessment()">Share link</button>
         </div>
-      </div>
-
-      <div class="results-section">
-        <div class="section-label">Email my results</div>
-        <div class="email-wrap">
-          <input type="email" id="email-input" class="email-input" placeholder="your@email.com" />
-          <button class="btn btn-primary" style="width:auto;white-space:nowrap;padding:12px 20px;" onclick="sendResultsByEmail()">Send results</button>
-        </div>
-        <div id="email-status" class="email-status hidden"></div>
       </div>
 
       <div class="results-actions">
         <button class="btn btn-ghost" onclick="resetQuiz()">Retake</button>
-        <button class="btn btn-primary" onclick="window.print()">Save as PDF</button>
+        <button class="btn btn-ghost" onclick="window.print()">Save as PDF</button>
       </div>
 
     </div>`;
-
-  // Animate bars in after render
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      DOMAINS.forEach(d => {
-        const s = domainScores[d.id];
-        const barEl = document.getElementById(`bar-${d.id}`);
-        if (barEl && s && s.total > 0) {
-          barEl.style.width = Math.round((s.correct / s.total) * 100) + '%';
-        }
-      });
-    }, 120);
-  });
 }
 
-// ─────────────────────────────────────────
-// SHARE & EMAIL
-// ─────────────────────────────────────────
+// ─────────────────────────────────────
+// CTA WIDGET
+// ─────────────────────────────────────
+
+function switchTab(tab) {
+  document.querySelectorAll('.cta-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.cta-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.cta-tab[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById(`panel-${tab}`).classList.add('active');
+}
+
+function iframeLoaded() {
+  const iframe = document.getElementById('reps-iframe');
+  if (iframe) iframe.style.display = 'block';
+}
+
+function iframeFailed() {
+  const iframe = document.getElementById('reps-iframe');
+  const fallback = document.getElementById('reps-fallback');
+  if (iframe) iframe.style.display = 'none';
+  if (fallback) fallback.style.display = 'block';
+}
+
+// ─────────────────────────────────────
+// SHARE
+// ─────────────────────────────────────
 
 function showToast(msg) {
   let t = document.getElementById('toast');
@@ -1433,71 +1046,21 @@ function showToast(msg) {
 function copyScore() {
   const { totalCorrect, totalQuestions, overallPct, profile } = computeResults();
   const url = window.location.href;
-  const text = `I scored ${overallPct}% on the AI Risk Understanding Assessment — "${profile.name}" (${totalCorrect}/${totalQuestions} correct).\n\nTake it yourself: ${url}`;
-  navigator.clipboard.writeText(text).then(() => showToast('Score copied to clipboard'));
+  const text = `I scored ${overallPct}% on the AI Risk Knowledge Exam — "${profile.name}" (${totalCorrect}/${totalQuestions} correct).\n\nTake it: ${url}`;
+  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard'));
 }
 
 function shareAssessment() {
   const url = window.location.href;
   if (navigator.share) {
-    navigator.share({ title: 'AI Risk Understanding Assessment', text: 'How well do you understand AI risk? Take this free assessment.', url });
+    navigator.share({ title: 'AI Risk: What Do You Actually Know?', text: 'A factual exam on AI risk. Most people fail.', url });
   } else {
-    navigator.clipboard.writeText(url).then(() => showToast('Link copied to clipboard'));
+    navigator.clipboard.writeText(url).then(() => showToast('Link copied'));
   }
 }
-
-function sendResultsByEmail() {
-  const emailEl = document.getElementById('email-input');
-  const statusEl = document.getElementById('email-status');
-  const email = emailEl.value.trim();
-
-  statusEl.className = 'email-status hidden';
-
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    statusEl.textContent = 'Please enter a valid email address.';
-    statusEl.className = 'email-status error';
-    return;
-  }
-
-  const { domainScores, totalCorrect, totalQuestions, overallPct, profile } = computeResults();
-
-  const breakdown = DOMAINS.map(d => {
-    const s = domainScores[d.id];
-    if (!s || s.total === 0) return null;
-    return `  ${d.label}: ${s.correct}/${s.total} (${Math.round((s.correct / s.total) * 100)}%)`;
-  }).filter(Boolean).join('\n');
-
-  const body = [
-    `AI Risk Understanding Assessment — Your Results`,
-    ``,
-    `Profile: ${profile.name}`,
-    `Overall score: ${totalCorrect}/${totalQuestions} (${overallPct}%)`,
-    ``,
-    `Domain breakdown:`,
-    breakdown,
-    ``,
-    `Take the assessment: ${window.location.href}`
-  ].join('\n');
-
-  const mailto = `mailto:${email}?subject=${encodeURIComponent('Your AI Risk Understanding Assessment Results')}&body=${encodeURIComponent(body)}`;
-  window.open(mailto);
-
-  statusEl.textContent = 'Your email client should open with your results pre-filled. Hit send!';
-  statusEl.className = 'email-status success';
-}
-
-// ─────────────────────────────────────────
-// RESET
-// ─────────────────────────────────────────
 
 function resetQuiz() {
-  state = {
-    onboarding: { background: null, familiarity: null, time: null },
-    onboardStep: 0,
-    questions: [],
-    currentQ: 0,
-    answers: []
-  };
+  state = { mode: 'brief', questions: [], currentQ: 0, answers: [] };
   showScreen('screen-welcome');
 }
 </script>
