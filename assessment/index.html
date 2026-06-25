@@ -8,26 +8,26 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f7f7f5;
-      --white: #ffffff;
-      --border: #e2e2dd;
-      --text: #1a1a1a;
-      --muted: #6b7280;
-      --primary: #1a56db;
-      --primary-light: #eff4ff;
-      --primary-dark: #1e40af;
-      --green: #16a34a;
-      --green-bg: #dcfce7;
-      --green-border: #86efac;
-      --red: #dc2626;
-      --red-bg: #fee2e2;
-      --red-border: #fca5a5;
-      --amber-bg: #fffbeb;
-      --amber-border: #fde68a;
-      --amber-text: #92400e;
+      --bg: #111111;
+      --white: #1c1c1c;
+      --border: #2e2e2e;
+      --text: #e8e5e0;
+      --muted: #8a8a8a;
+      --primary: #5090f5;
+      --primary-light: rgba(80, 144, 245, 0.12);
+      --primary-dark: #3b7de8;
+      --green: #4ade80;
+      --green-bg: #052e14;
+      --green-border: #166534;
+      --red: #f87171;
+      --red-bg: #3b0909;
+      --red-border: #7f1d1d;
+      --amber-bg: #1c1306;
+      --amber-border: #78350f;
+      --amber-text: #fbbf24;
       --radius: 12px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.06);
+      --shadow: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.4);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.4);
     }
 
     body {
@@ -84,16 +84,6 @@
       margin-bottom: 28px;
       line-height: 1.75;
     }
-    .warning-box {
-      background: var(--amber-bg);
-      border: 1px solid var(--amber-border);
-      border-radius: 8px;
-      padding: 14px 16px;
-      font-size: 13.5px;
-      color: var(--amber-text);
-      line-height: 1.65;
-      margin-bottom: 28px;
-    }
     .mode-btns {
       display: flex;
       flex-direction: column;
@@ -125,8 +115,8 @@
       white-space: nowrap;
       flex-shrink: 0;
     }
-    .badge-brief { background: #d1fae5; color: #065f46; }
-    .badge-full  { background: #dbeafe; color: #1e40af; }
+    .badge-brief { background: #052e14; color: #4ade80; }
+    .badge-full  { background: #1e3358; color: #93c5fd; }
 
     /* Buttons */
     .btn {
@@ -438,10 +428,6 @@
         This is a factual exam on AI risk — historical record, published research,
         expert estimates. Not a conceptual quiz. Not multiple opinions. Facts with right answers.
       </p>
-      <div class="warning-box">
-        Most people fail this exam. That is the point. The researchers studying this
-        problem are further ahead of public awareness than almost anyone realizes.
-      </div>
       <div class="mode-btns">
         <button class="mode-btn" onclick="startQuiz('brief')">
           <div class="mode-btn-left">
