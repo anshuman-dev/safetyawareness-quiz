@@ -377,6 +377,51 @@
     .other-item a { color: var(--primary); text-decoration: none; font-weight: 600; }
     .other-item a:hover { text-decoration: underline; }
 
+    /* Reflection screen */
+    .reflection-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--primary); margin-bottom: 14px;
+    }
+    .reflection-question {
+      font-size: 20px; font-weight: 700; line-height: 1.4; margin-bottom: 10px;
+    }
+    .reflection-context {
+      font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6;
+    }
+    .reflection-textarea {
+      width: 100%; min-height: 120px;
+      border: 1.5px solid var(--border); border-radius: 8px;
+      padding: 12px 14px; font-size: 14px; font-family: inherit;
+      color: var(--text); background: var(--bg);
+      resize: vertical; line-height: 1.6;
+      transition: border-color 0.12s; outline: none;
+    }
+    .reflection-textarea:focus { border-color: var(--primary); }
+    .reflection-textarea::placeholder { color: var(--muted); opacity: 0.6; }
+    .word-count { font-size: 12px; color: var(--muted); margin-top: 8px; display: block; }
+    .word-count.valid { color: var(--green); }
+
+    /* Reflection results */
+    .reflections-list { display: flex; flex-direction: column; gap: 14px; }
+    .reflection-result {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 18px;
+    }
+    .reflection-result-q { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+    .reflection-result-a { font-size: 14px; line-height: 1.65; color: var(--text); }
+
+    /* Org list */
+    .org-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .org-item {
+      display: block; padding: 12px 14px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; text-decoration: none;
+      transition: border-color 0.12s;
+    }
+    .org-item:hover { border-color: var(--primary); }
+    .org-item strong { display: block; font-size: 13px; color: var(--text); margin-bottom: 2px; }
+    .org-item span { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
     /* Share */
     .share-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .share-row .btn { flex: 1; min-width: 140px; font-size: 13px; padding: 11px 16px; }
@@ -446,6 +491,9 @@
       </div>
     </div>
   </div>
+
+  <!-- REFLECTION -->
+  <div id="screen-reflection" class="screen"></div>
 
   <!-- QUIZ -->
   <div id="screen-quiz" class="screen">
@@ -709,6 +757,24 @@ const ALL_QUESTIONS = [
   }
 ];
 
+const REFLECTION_QUESTIONS = [
+  {
+    id: 'r1',
+    text: 'Can you achieve anything else you value if humanity destroys itself with AI in the next few months or years?',
+    context: 'Think about what matters most to you — your family, your work, things you hope to see happen.'
+  },
+  {
+    id: 'r2',
+    text: 'What would it take for you to make mitigating AI risk a daily priority?',
+    context: 'Be honest. What information, event, or argument would actually change how you spend your time?'
+  },
+  {
+    id: 'r3',
+    text: 'If not you, then who?',
+    context: 'There are roughly 1,100 people working on existential risks from AI globally. The gap between the scale of the problem and the number of people working on it is large.'
+  }
+];
+
 const PROFILES = [
   { min: 0,  max: 25,  name: 'Below the baseline',
     narrative: 'You scored below 25%. Most people do. The public understanding of AI risk lags significantly behind what researchers know — that gap is itself part of the problem. The facts below show what you missed.' },
@@ -728,7 +794,9 @@ let state = {
   mode: 'brief',
   questions: [],
   currentQ: 0,
-  answers: []
+  answers: [],
+  reflections: [],
+  currentR: 0
 };
 
 // ─────────────────────────────────────
@@ -840,6 +908,72 @@ function nextQuestion() {
   state.currentQ++;
   if (state.currentQ < state.questions.length) {
     renderQuestion();
+  } else {
+    state.currentR = 0;
+    state.reflections = [];
+    renderReflection();
+  }
+}
+
+// ─────────────────────────────────────
+// REFLECTION
+// ─────────────────────────────────────
+
+function renderReflection() {
+  const r = REFLECTION_QUESTIONS[state.currentR];
+  const total = REFLECTION_QUESTIONS.length;
+  const pct = Math.round((state.currentR / total) * 100);
+  const isLast = state.currentR === total - 1;
+
+  showScreen('screen-reflection');
+  document.getElementById('screen-reflection').innerHTML = `
+    <div class="progress-bar-wrap" style="width:100%;max-width:640px;margin-bottom:14px;">
+      <div class="progress-meta">
+        <span>Reflection ${state.currentR + 1} of ${total}</span>
+        <span>${pct}% complete</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${pct}%"></div>
+      </div>
+    </div>
+    <div class="card animate-in" style="max-width:640px;width:100%;">
+      <div class="reflection-eyebrow">Reflect</div>
+      <div class="reflection-question">${r.text}</div>
+      <div class="reflection-context">${r.context}</div>
+      <textarea id="reflection-input" class="reflection-textarea"
+        placeholder="Write your thoughts here..."
+        oninput="onReflectionInput(this)"></textarea>
+      <span class="word-count" id="word-count">0 words — write at least 10 to continue</span>
+      <div style="margin-top:20px;">
+        <button class="btn btn-primary" id="reflection-btn" disabled onclick="submitReflection()">
+          ${isLast ? 'See results &rarr;' : 'Continue &rarr;'}
+        </button>
+      </div>
+    </div>`;
+}
+
+function onReflectionInput(textarea) {
+  const words = textarea.value.trim().split(/\s+/).filter(w => w.length > 0);
+  const count = words.length;
+  const countEl = document.getElementById('word-count');
+  const btn = document.getElementById('reflection-btn');
+  if (count >= 10) {
+    countEl.textContent = `${count} words`;
+    countEl.classList.add('valid');
+    btn.removeAttribute('disabled');
+  } else {
+    countEl.textContent = `${count} words — write at least 10 to continue`;
+    countEl.classList.remove('valid');
+    btn.setAttribute('disabled', true);
+  }
+}
+
+function submitReflection() {
+  const text = document.getElementById('reflection-input').value.trim();
+  state.reflections.push({ question: REFLECTION_QUESTIONS[state.currentR].text, answer: text });
+  state.currentR++;
+  if (state.currentR < REFLECTION_QUESTIONS.length) {
+    renderReflection();
   } else {
     showResults();
   }
@@ -972,10 +1106,57 @@ function showResults() {
                   <a href="https://aisafetyfundamentals.com" target="_blank" rel="noopener">aisafetyfundamentals.com &rarr;</a>
                 </div>
               </div>
+              <div class="cta-subhead" style="margin-top:24px;">Organizations working on this</div>
+              <div class="org-list">
+                <a class="org-item" href="https://existentialsafety.org" target="_blank" rel="noopener">
+                  <strong>Center for Existential Safety</strong>
+                  <span>Organizes collective action against extinction-level risks.</span>
+                </a>
+                <a class="org-item" href="https://controlai.com" target="_blank" rel="noopener">
+                  <strong>ControlAI</strong>
+                  <span>Campaigns for binding rules on frontier AI development.</span>
+                </a>
+                <a class="org-item" href="https://pauseai.info" target="_blank" rel="noopener">
+                  <strong>PauseAI</strong>
+                  <span>Grassroots movement for a pause on frontier AI development.</span>
+                </a>
+                <a class="org-item" href="https://futureoflife.org" target="_blank" rel="noopener">
+                  <strong>Future of Life Institute</strong>
+                  <span>Policy and advocacy to steer powerful technology away from extreme risks.</span>
+                </a>
+                <a class="org-item" href="https://safe.ai" target="_blank" rel="noopener">
+                  <strong>Center for AI Safety</strong>
+                  <span>Safety research and advocacy for global safety standards.</span>
+                </a>
+                <a class="org-item" href="https://intelligence.org" target="_blank" rel="noopener">
+                  <strong>MIRI</strong>
+                  <span>Advocates for a global halt to superintelligence development until safety is solved.</span>
+                </a>
+                <a class="org-item" href="https://encodeai.org" target="_blank" rel="noopener">
+                  <strong>Encode</strong>
+                  <span>Youth-led advocacy for safe and accountable AI.</span>
+                </a>
+                <a class="org-item" href="https://ai-futures.org" target="_blank" rel="noopener">
+                  <strong>AI Futures Project</strong>
+                  <span>Research group forecasting AI's trajectory; authors of the AI 2027 scenario.</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      ${state.reflections.length > 0 ? `
+      <div class="results-section">
+        <div class="section-label">Your reflections</div>
+        <div class="reflections-list">
+          ${state.reflections.map(r => `
+            <div class="reflection-result">
+              <div class="reflection-result-q">${r.question}</div>
+              <div class="reflection-result-a">${r.answer}</div>
+            </div>`).join('')}
+        </div>
+      </div>` : ''}
 
       <div class="results-section">
         <div class="section-label">Share</div>
@@ -1046,7 +1227,7 @@ function shareAssessment() {
 }
 
 function resetQuiz() {
-  state = { mode: 'brief', questions: [], currentQ: 0, answers: [] };
+  state = { mode: 'brief', questions: [], currentQ: 0, answers: [], reflections: [], currentR: 0 };
   showScreen('screen-welcome');
 }
 </script>
