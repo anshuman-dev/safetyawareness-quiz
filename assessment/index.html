@@ -460,6 +460,36 @@
       .results-hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
 
+    /* Intro overview */
+    .intro-parts { display: flex; flex-direction: column; gap: 10px; }
+    .intro-part {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 16px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+    }
+    .intro-part-num {
+      min-width: 44px; padding: 4px 0;
+      font-size: 11px; font-weight: 800; letter-spacing: 0.5px;
+      text-transform: uppercase; color: var(--primary); flex-shrink: 0;
+    }
+    .intro-part-info { display: flex; flex-direction: column; gap: 2px; }
+    .intro-part-info strong { font-size: 14px; color: var(--text); }
+    .intro-part-info span { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    /* Section break cards */
+    .section-break-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--primary); margin-bottom: 12px;
+    }
+    .section-break-title {
+      font-size: 22px; font-weight: 800; letter-spacing: -0.3px;
+      line-height: 1.3; margin-bottom: 10px;
+    }
+    .section-break-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* Graph / chart questions */
+    .question-graphic { margin-bottom: 20px; border-radius: 8px; overflow: hidden; }
+
     /* Comprehension blocks */
     .passage-block {
       background: var(--bg);
@@ -537,6 +567,9 @@
 
   <!-- REFLECTION -->
   <div id="screen-reflection" class="screen"></div>
+
+  <!-- INTRO OVERVIEW -->
+  <div id="screen-intro" class="screen"></div>
 
   <!-- QUIZ -->
   <div id="screen-quiz" class="screen">
@@ -751,6 +784,100 @@ const ALL_QUESTIONS = [
     explanation: 'I.J. Good\'s 1965 paper introduced the "intelligence explosion": once a machine surpasses human intelligence, it could design smarter machines, which could design still smarter machines — a rapid and potentially uncontrollable acceleration. Good called the first ultraintelligent machine "the last invention that man need ever make" — because it would then make all subsequent inventions itself.'
   },
   {
+    id: 'g1',
+    noShuffle: true,
+    graphic: `<svg viewBox="0 0 420 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#111;border-radius:8px;">
+  <line x1="50" y1="15" x2="325" y2="15" stroke="#2e2e2e" stroke-width="0.8"/>
+  <line x1="50" y1="48" x2="325" y2="48" stroke="#2e2e2e" stroke-width="0.8"/>
+  <line x1="50" y1="80" x2="325" y2="80" stroke="#2e2e2e" stroke-width="0.8"/>
+  <line x1="50" y1="113" x2="325" y2="113" stroke="#2e2e2e" stroke-width="0.8"/>
+  <line x1="50" y1="145" x2="325" y2="145" stroke="#2e2e2e" stroke-width="0.8"/>
+  <text x="44" y="19"  text-anchor="end" font-size="9" fill="#8a8a8a" font-family="sans-serif">100%</text>
+  <text x="44" y="52"  text-anchor="end" font-size="9" fill="#8a8a8a" font-family="sans-serif">75%</text>
+  <text x="44" y="84"  text-anchor="end" font-size="9" fill="#8a8a8a" font-family="sans-serif">50%</text>
+  <text x="44" y="117" text-anchor="end" font-size="9" fill="#8a8a8a" font-family="sans-serif">25%</text>
+  <text x="44" y="149" text-anchor="end" font-size="9" fill="#8a8a8a" font-family="sans-serif">0%</text>
+  <line x1="50" y1="54" x2="325" y2="54" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.9"/>
+  <text x="330" y="50" font-size="8" fill="#fbbf24" font-family="sans-serif">Human</text>
+  <text x="330" y="60" font-size="8" fill="#fbbf24" font-family="sans-serif">experts 70%</text>
+  <polyline points="50,120 119,105 188,84 257,50 325,25" fill="none" stroke="#5090f5" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="50"  cy="120" r="4" fill="#5090f5"/>
+  <circle cx="119" cy="105" r="4" fill="#5090f5"/>
+  <circle cx="188" cy="84"  r="4" fill="#5090f5"/>
+  <circle cx="257" cy="50"  r="4" fill="#5090f5"/>
+  <circle cx="325" cy="25"  r="4" fill="#5090f5"/>
+  <text x="50"  y="114" text-anchor="middle" font-size="8.5" fill="#5090f5" font-family="sans-serif">20%</text>
+  <text x="119" y="99"  text-anchor="middle" font-size="8.5" fill="#5090f5" font-family="sans-serif">34%</text>
+  <text x="188" y="78"  text-anchor="middle" font-size="8.5" fill="#5090f5" font-family="sans-serif">53%</text>
+  <text x="257" y="44"  text-anchor="middle" font-size="8.5" fill="#5090f5" font-family="sans-serif">73%</text>
+  <text x="325" y="19"  text-anchor="middle" font-size="8.5" fill="#5090f5" font-family="sans-serif">93%</text>
+  <text x="50"  y="162" text-anchor="middle" font-size="9" fill="#8a8a8a" font-family="sans-serif">2021</text>
+  <text x="119" y="162" text-anchor="middle" font-size="9" fill="#8a8a8a" font-family="sans-serif">2022</text>
+  <text x="188" y="162" text-anchor="middle" font-size="9" fill="#8a8a8a" font-family="sans-serif">2023</text>
+  <text x="257" y="162" text-anchor="middle" font-size="9" fill="#8a8a8a" font-family="sans-serif">2024</text>
+  <text x="325" y="162" text-anchor="middle" font-size="9" fill="#8a8a8a" font-family="sans-serif">2025</text>
+  <line x1="55"  y1="178" x2="72"  y2="178" stroke="#5090f5" stroke-width="2"/>
+  <text x="76"  y="182" font-size="8.5" fill="#8a8a8a" font-family="sans-serif">AI score on graduate-level expert benchmarks (approx.)</text>
+  <line x1="290" y1="178" x2="307" y2="178" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="311" y="182" font-size="8.5" fill="#8a8a8a" font-family="sans-serif">Human experts</text>
+</svg>`,
+    text: 'This chart shows AI performance on graduate-level expert benchmarks over time, compared to the human expert baseline. What does the trend indicate?',
+    options: [
+      'AI has consistently outperformed human experts since 2021',
+      'AI performance has plateaued at or below the human expert level',
+      'AI crossed the human expert baseline around 2024 and continues to climb',
+      'Human experts still outperform AI on these benchmarks as of 2025'
+    ],
+    correct: 2,
+    explanation: 'AI crossed the ~70% human expert baseline on graduate-level science benchmarks around 2024, reaching approximately 93% by early 2025 — well above human expert performance. On GPQA specifically, frontier models scored ~93% by early 2025 versus ~70% for domain experts. AI is no longer approaching human expert performance in these domains; it has surpassed it.'
+  },
+  {
+    id: 'g2',
+    noShuffle: true,
+    graphic: `<svg viewBox="0 0 420 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;background:#111;border-radius:8px;">
+  <line x1="30" y1="78" x2="390" y2="78" stroke="#2e2e2e" stroke-width="1.5"/>
+  <circle cx="30"  cy="78" r="5" fill="#5090f5"/>
+  <circle cx="110" cy="78" r="5" fill="#5090f5"/>
+  <circle cx="133" cy="78" r="5" fill="#5090f5"/>
+  <circle cx="280" cy="78" r="5" fill="#5090f5"/>
+  <circle cx="390" cy="78" r="5" fill="#5090f5"/>
+  <line x1="30"  y1="73" x2="30"  y2="68" stroke="#5090f5" stroke-width="1"/>
+  <line x1="110" y1="83" x2="110" y2="88" stroke="#5090f5" stroke-width="1"/>
+  <line x1="133" y1="73" x2="133" y2="68" stroke="#5090f5" stroke-width="1"/>
+  <line x1="280" y1="83" x2="280" y2="88" stroke="#5090f5" stroke-width="1"/>
+  <line x1="390" y1="73" x2="390" y2="68" stroke="#5090f5" stroke-width="1"/>
+  <text x="30"  y="62" text-anchor="middle" font-size="9.5" font-weight="700" fill="#e8e5e0" font-family="sans-serif">1863</text>
+  <text x="110" y="103" text-anchor="middle" font-size="9.5" font-weight="700" fill="#e8e5e0" font-family="sans-serif">1951</text>
+  <text x="133" y="62" text-anchor="middle" font-size="9.5" font-weight="700" fill="#e8e5e0" font-family="sans-serif">1965</text>
+  <text x="280" y="103" text-anchor="middle" font-size="9.5" font-weight="700" fill="#e8e5e0" font-family="sans-serif">2014</text>
+  <text x="390" y="62" text-anchor="middle" font-size="9.5" font-weight="700" fill="#e8e5e0" font-family="sans-serif">2023</text>
+  <text x="30"  y="50" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">Samuel Butler</text>
+  <text x="30"  y="40" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">"Darwin Among</text>
+  <text x="30"  y="30" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">the Machines"</text>
+  <text x="110" y="116" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">Alan Turing</text>
+  <text x="110" y="126" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">lecture warning</text>
+  <text x="133" y="50" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">I.J. Good</text>
+  <text x="133" y="40" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">intelligence</text>
+  <text x="133" y="30" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">explosion</text>
+  <text x="280" y="116" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">Nick Bostrom</text>
+  <text x="280" y="126" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">Superintelligence</text>
+  <text x="390" y="50" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">CAIS extinction</text>
+  <text x="390" y="40" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">statement</text>
+  <text x="390" y="30" text-anchor="middle" font-size="8" fill="#8a8a8a" font-family="sans-serif">1,000+ signatories</text>
+  <text x="210" y="150" text-anchor="middle" font-size="8.5" fill="#8a8a8a" font-family="sans-serif">Timeline: Major written warnings about AI surpassing human intelligence</text>
+</svg>`,
+    text: 'Based on this timeline, which statement is most accurate?',
+    options: [
+      'Concerns about AI surpassing human intelligence first appeared around 2014',
+      'Written warnings about machine intelligence date back over 160 years, to 1863',
+      'Alan Turing\'s 1951 lecture was the first written warning about machine intelligence',
+      'The publication of "Superintelligence" in 2014 triggered widespread concern for the first time'
+    ],
+    correct: 1,
+    explanation: 'Samuel Butler\'s 1863 essay "Darwin Among the Machines" was the first written warning that machines might surpass human intelligence — 160 years before the CAIS statement. The timeline shows this has been a recurring concern across different eras, not a recent invention. Turing\'s 1951 lecture was a clarification of the danger, not the first warning.'
+  },
+
+  {
     id: 'c1',
     type: 'comprehension',
     passageTitle: 'Historical Record: The Cuban Missile Crisis',
@@ -908,7 +1035,7 @@ function showScreen(id) {
 }
 
 function shuffle(q) {
-  if (q.type === 'comprehension') return q;
+  if (q.type === 'comprehension' || q.type === 'section-break' || q.noShuffle) return q;
   const perm = [0, 1, 2, 3];
   for (let i = perm.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -931,22 +1058,86 @@ function computeResults() {
 
 function startQuiz(mode) {
   state.mode = mode;
-  const count = mode === 'brief' ? 8 : ALL_QUESTIONS.length;
-  state.questions = ALL_QUESTIONS.slice(0, count).map(shuffle);
+  const isFull = mode === 'full';
+  document.getElementById('screen-intro').innerHTML = `
+    <div class="card animate-in" style="max-width:640px;width:100%;">
+      <div class="eyebrow">What you're about to take</div>
+      <h2 style="font-size:20px;font-weight:800;letter-spacing:-0.3px;margin-bottom:20px;">
+        ${isFull ? 'Full exam — comprehensive' : 'Quick exam — brief'}
+      </h2>
+      <div class="intro-parts">
+        ${isFull ? `
+        <div class="intro-part">
+          <span class="intro-part-num">Part 1</span>
+          <div class="intro-part-info"><strong>Multiple choice</strong><span>16 questions · one correct answer each</span></div>
+        </div>
+        <div class="intro-part">
+          <span class="intro-part-num">Part 2</span>
+          <div class="intro-part-info"><strong>Data &amp; charts</strong><span>2 questions · read and interpret graphs</span></div>
+        </div>
+        <div class="intro-part">
+          <span class="intro-part-num">Part 3</span>
+          <div class="intro-part-info"><strong>Comprehension passages</strong><span>3 passages · mixed MCQ and written answers with keyword scoring</span></div>
+        </div>
+        <div class="intro-part">
+          <span class="intro-part-num">Then</span>
+          <div class="intro-part-info"><strong>Reflection questions</strong><span>3 open questions · no right or wrong answers</span></div>
+        </div>` : `
+        <div class="intro-part">
+          <span class="intro-part-num">8</span>
+          <div class="intro-part-info"><strong>Multiple choice questions</strong><span>One correct answer each · about 5 minutes</span></div>
+        </div>
+        <div class="intro-part">
+          <span class="intro-part-num">Then</span>
+          <div class="intro-part-info"><strong>3 reflection questions</strong><span>Open-ended · no right or wrong answers</span></div>
+        </div>`}
+      </div>
+      <button class="btn btn-primary" style="margin-top:24px;" onclick="beginExam()">Begin exam &rarr;</button>
+      <button class="btn btn-ghost" style="margin-top:10px;width:100%;" onclick="showScreen('screen-welcome')">Back</button>
+    </div>`;
+  showScreen('screen-intro');
+}
+
+function beginExam() {
   state.currentQ = 0;
   state.answers = [];
+  state.reflections = [];
+  state.currentR = 0;
+  state.compDraft = {};
+
+  if (state.mode === 'brief') {
+    state.questions = [
+      { type: 'section-break', title: 'Multiple Choice', desc: '8 questions. Select the best answer for each.', btnText: 'Start &rarr;' },
+      ...ALL_QUESTIONS.slice(0, 8).map(shuffle)
+    ];
+  } else {
+    const mcqAndGraph = ALL_QUESTIONS.slice(0, 18).map(shuffle);
+    const comprehension = ALL_QUESTIONS.slice(18);
+    state.questions = [
+      { type: 'section-break', title: 'Part 1 & 2: Questions', desc: '16 multiple choice questions and 2 data analysis questions. Select the best answer for each.', btnText: 'Start &rarr;' },
+      ...mcqAndGraph,
+      { type: 'section-break', title: 'Part 3: Comprehension Passages', desc: 'Three reading passages with 2–3 questions each. Some questions require a written answer of at least 10 words.', btnText: 'Start passages &rarr;' },
+      ...comprehension
+    ];
+  }
+
   showScreen('screen-quiz');
   renderQuestion();
 }
 
 function renderQuestion() {
   const q = state.questions[state.currentQ];
-  const total = state.questions.length;
-  const pct = Math.round((state.currentQ / total) * 100);
+
+  if (q.type === 'section-break') { renderSectionBreak(q); return; }
+
+  const scorable = state.questions.filter(s => s.type !== 'section-break');
+  const totalScored = scorable.length;
+  const scoredSoFar = state.questions.slice(0, state.currentQ).filter(s => s.type !== 'section-break').length;
+  const pct = Math.round((scoredSoFar / totalScored) * 100);
 
   document.getElementById('quiz-progress-wrap').innerHTML = `
     <div class="progress-meta">
-      <span>Question ${state.currentQ + 1} of ${total}</span>
+      <span>Question ${scoredSoFar + 1} of ${totalScored}</span>
       <span>${pct}% complete</span>
     </div>
     <div class="progress-track">
@@ -955,10 +1146,13 @@ function renderQuestion() {
 
   if (q.type === 'comprehension') { renderComprehensionBlock(q); return; }
 
+  const isLast = state.currentQ === state.questions.length - 1;
   const letters = ['A', 'B', 'C', 'D'];
   const card = document.getElementById('quiz-card');
+  const graphicHTML = q.graphic ? `<div class="question-graphic">${q.graphic}</div>` : '';
 
   card.innerHTML = `
+    ${graphicHTML}
     <div class="question-text">${q.text}</div>
     <div class="quiz-options" id="options-wrap">
       ${q.options.map((opt, i) => `
@@ -973,7 +1167,7 @@ function renderQuestion() {
     </div>
     <div class="quiz-footer hidden" id="quiz-footer">
       <button class="btn btn-primary" style="width:auto;padding:12px 28px;" onclick="nextQuestion()">
-        ${state.currentQ < state.questions.length - 1 ? 'Next question &rarr;' : 'See results &rarr;'}
+        ${isLast ? 'Continue &rarr;' : 'Next question &rarr;'}
       </button>
     </div>`;
 
@@ -1015,6 +1209,21 @@ function nextQuestion() {
     state.reflections = [];
     renderReflection();
   }
+}
+
+function renderSectionBreak(q) {
+  document.getElementById('quiz-progress-wrap').innerHTML = '';
+  const card = document.getElementById('quiz-card');
+  card.innerHTML = `
+    <div class="section-break-eyebrow">Up next</div>
+    <div class="section-break-title">${q.title}</div>
+    <p class="section-break-desc">${q.desc}</p>
+    <div style="margin-top:24px;">
+      <button class="btn btn-primary" onclick="nextQuestion()">${q.btnText || 'Continue &rarr;'}</button>
+    </div>`;
+  card.classList.remove('animate-in');
+  void card.offsetWidth;
+  card.classList.add('animate-in');
 }
 
 // ─────────────────────────────────────
@@ -1507,7 +1716,7 @@ function shareAssessment() {
 }
 
 function resetQuiz() {
-  state = { mode: 'brief', questions: [], currentQ: 0, answers: [], reflections: [], currentR: 0 };
+  state = { mode: 'brief', questions: [], currentQ: 0, answers: [], reflections: [], currentR: 0, compDraft: {} };
   showScreen('screen-welcome');
 }
 </script>
